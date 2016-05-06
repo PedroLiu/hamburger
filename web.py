@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from flask import Flask, request, session, render_template, redirect, abort
+from flask import Flask, request, session, render_template, redirect, abort, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -109,7 +109,7 @@ class orderView:
         return render_template('menu.html')
 
     def submitOrder(self):
-        #submit order and show paying page
+        # submit order and show paying page
         newOrder = order()
         newOrder.getOrder()
         db.session.add(newOrder)
@@ -145,16 +145,52 @@ class orderListView:
         #show list
         return render_template('orderlist.html')
 
+class testingClass:
+    def menu(self):
+        d = {
+            'step': ['bread', 'meatpie', 'vegetable', 'cheese', 'sauce', 'other'],
+            'bread': [ u'松软面包', u'白面包', u'巨菜叶' ],
+            'meatpie': [ '牛肉', '鸡腿肉', '鳕鱼肉', '虾肉' ],
+            'vegetable': [ '生菜', '收菜' ],
+            'cheese': [ 'ch1', 'ch2' ],
+            'sauce': [ 's1', 'asf' ],
+            'other': [ 'o1', '02', 'o3' ],
+            'bye': [
+                '着急吃不了(热)豆腐哟~',
+                '打把炉石就给您端上来了~',
+                '请皇上稍等，微臣这就去安排~',
+                '能不能给我一首歌的时间？'
+            ]
+        }
+        return d
 
+# get menu data
+@app.route('/api/menu', methods=['GET'])
+def get_menu():
+    # get menu data from database
+    data = testingClass().menu()
+    # return a json
+    return jsonify(data)
 
-@app.route('/test/', methods=['GET', 'POST'])
+# post a new order
+@app.route('/api/neworder', methods=['POST'])
+def new_order():
+    # show the request for testing
+    for k,v in request.form.items():
+        print(k, '=', request.form[k])
+    # back to menu
+    return redirect('/')
+
+# index
+@app.route('/', methods=['GET'])
+def index():
+    # show menu
+    return orderView().showMenu()
+
+# for test!!!
+@app.route('/test', methods=['GET', 'POST'])
 def test():
-    if request.method == 'POST':
-        for k,v in request.form.items():
-            print(k, '=', request.form[k])
-
     return render_template('test.html')
-
 
 try:
     User.query.all()
