@@ -149,6 +149,10 @@ class orderListView:
 
 @app.route('/test/', methods=['GET', 'POST'])
 def test():
+    if request.method == 'POST':
+        for k,v in request.form.items():
+            print(k, '=', request.form[k])
+
     return render_template('test.html')
 
 
@@ -157,4 +161,4 @@ try:
 except:
     db.create_all()
 
-app.run(host = '0.0.0.0', port = 80, threaded=True)
+app.run(host = '0.0.0.0', port = 8088, threaded=True)

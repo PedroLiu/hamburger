@@ -1,2 +1,66 @@
 <html>
+<head>
+<script type="text/javascript">
+// testing data
+d = {
+	'step': ['bread', 'meatpie', 'vegetable', 'cheese', 'sauce', 'other'],
+	'bread': [ '松软面包', '白面包', '巨菜叶' ],
+	'meatpie': [ '牛肉', '鸡腿肉', '鳕鱼肉', '虾肉' ],
+	'vegetable': [ '生菜', '收菜' ],
+	'cheese': [ 'ch1', 'ch2' ],
+	'sauce': [ 's1', 'asf' ],
+	'other': [ 'o1', '02', 'o3' ],
+	'bye': [
+		'着急吃不了(热)豆腐哟~',
+		'打把炉石就给您端上来了~',
+		'请皇上稍等，微臣这就去安排~',
+		'能不能给我一首歌的时间？'
+	]
+};
+
+function add(data) {
+	for (var step in data['step']) {
+		var name = data['step'][step];
+		var row = document.getElementById(name);
+		var content = data[name];
+		for (var i = 0; i < content.length; i++) {
+			// check the 1st item
+			var chk = i == 0 ? '" checked="checked"' : '"';
+
+			// multi or single ???
+			var type='checkbox';
+			var type='radio';
+
+			// insert HTML
+			var inner = '<input type="' + type +'" value="' + content[i] + '" name="' + name + chk + '/>' + content[i];
+			row.insertCell().innerHTML = inner;
+		}
+	}
+}
+
+function done(bye) {
+	var rand = Math.round( Math.random() * (bye.length - 1));
+	alert(bye[rand]);
+
+	<!--alert(document.order.elements['bread'].value);-->
+}
+
+</script>
+</head>
+<body onload="add(d)">
+
+<form name="order" method="post" action="/test/">
+	<table id="tb" border="0">
+		<tr id="bread"		><td>面包</td></tr><tr/>
+		<tr id="meatpie"	><td>肉饼</td></tr><tr/>
+		<tr id="vegetable"	><td>蔬菜</td></tr><tr/>
+		<tr id="cheese"		><td>芝士</td></tr><tr/>
+		<tr id="sauce"		><td>酱料</td></tr><tr/>
+		<tr id="other"		><td>其他</td></tr><tr/>
+		<tr id=><td/><input type="submit" value="点好啦" onclick="done(d['bye']);" /></tr>
+	</table>
+</form>
+
+</body>
 </html>
+
