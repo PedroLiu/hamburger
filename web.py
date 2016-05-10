@@ -169,12 +169,18 @@ def new_order():
 # index
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html', data = testingClass().getorder())
+    return render_template('index.html', data = testingClass().getMenu())
 
 # cook
 @app.route('/cook/', methods=['GET'])
 def cook_index():
-    return render_template('cook.html', data = testingClass().getorder())
+    #return render_template('cook.html', cook = True, data = testingClass().getOrder())
+    return render_template('cook.html', cook = True, data = testingClass().getOrder())
+
+# reception
+@app.route('/reception/', methods=['GET'])
+def reception_index():
+    return render_template('cook.html', reception = True, data = testingClass().getOrder())
 
 # for test!!!
 @app.route('/test/', methods=['GET', 'POST'])

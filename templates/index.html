@@ -74,7 +74,7 @@ $(".confirm").click(function(){
 			var tmp = new Object;
 			tmp['sid'] = sid;
 			tmp['name'] = name;
-			tmp['num'] = num;
+			tmp['num'] = parseInt(num);
 			postdata[id]['item'].push(tmp);
 			});
 		var info = '你确定提交订单吗？\n\n总价:\t';
