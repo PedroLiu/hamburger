@@ -3,6 +3,7 @@
 from flask import Flask, request, session, render_template, redirect, abort, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
+from mytest import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///orders.db'
@@ -145,67 +146,6 @@ class orderListView:
         #show list
         return render_template('orderlist.html')
 
-class testingClass:
-    def getorder(self):
-        data = [
-            {
-                'id':'bread',
-                'name':'面包',
-                'item': [
-                    {
-                        'sid':'bread1',
-                        'name':'松软面包',
-                        'price':1,
-                        'pic':'t1.jpg'
-                    },
-                    {
-                        'sid':'bread2',
-                        'name':'白面包',
-                        'price':2,
-                        'pic':'t2.jpg'
-                    }
-                ]
-            },
-
-            {
-                'id':'meatpie',
-                'name':'肉饼',
-                'item': [
-                    {
-                        'sid':'meat1',
-                        'name':'牛肉',
-                        'price':1,
-                        'pic':'t1.jpg'
-                    },
-                    {
-                        'sid':'meat2',
-                        'name':'鸡腿肉',
-                        'price':2,
-                        'pic':'t2.jpg'
-                    }
-                ]
-            }
-        ]
-        return data
-
-
-    def menu(self):
-        d = {
-            'cate': ['bread', 'meatpie', 'vegetable', 'cheese', 'sauce', 'other'],
-            'bread': [ u'松软面包', u'白面包', u'巨菜叶' ],
-            'meatpie': [ '牛肉', '鸡腿肉', '鳕鱼肉', '虾肉' ],
-            'vegetable': [ '生菜', '收菜' ],
-            'cheese': [ 'ch1', 'ch2' ],
-            'sauce': [ 's1', 'asf' ],
-            'other': [ 'o1', '02', 'o3' ],
-            'bye': [
-                '着急吃不了(热)豆腐哟~',
-                '打把炉石就给您端上来了~',
-                '请皇上稍等，微臣这就去安排~',
-                '能不能给我一首歌的时间？'
-            ]
-        }
-        return d
 
 # get menu data
 @app.route('/api/getorder/', methods=['GET'])
@@ -219,10 +159,12 @@ def get_menu():
 @app.route('/api/neworder/', methods=['POST'])
 def new_order():
     # show the request for testing
-    for k,v in request.form.items():
-        print(k, '=', request.form[k])
+    print(request.json);
+    for k in request.json:
+        print(k, '=', request.json[k])
+    #return jsonify(request.json)
     # back to menu
-    return redirect('/')
+    return '/'
 
 # index
 @app.route('/', methods=['GET'])
