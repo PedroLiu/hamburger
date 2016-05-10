@@ -208,7 +208,7 @@ class testingClass:
         return d
 
 # get menu data
-@app.route('/api/getorder', methods=['GET'])
+@app.route('/api/getorder/', methods=['GET'])
 def get_menu():
     # get menu data from database
     data = testingClass().menu()
@@ -216,7 +216,7 @@ def get_menu():
     return jsonify(data)
 
 # post a new order
-@app.route('/api/neworder', methods=['POST'])
+@app.route('/api/neworder/', methods=['POST'])
 def new_order():
     # show the request for testing
     for k,v in request.form.items():
@@ -230,17 +230,17 @@ def index():
     return render_template('index.html', data = testingClass().getorder())
 
 # cook
-@app.route('/cook', methods=['GET'])
+@app.route('/cook/', methods=['GET'])
 def cook_index():
     return render_template('cook.html', data = testingClass().getorder())
 
 # for test!!!
-@app.route('/test', methods=['GET', 'POST'])
+@app.route('/test/', methods=['GET', 'POST'])
 def test():
     return render_template('test.html')
 
 try:
-    User.query.all()
+    order.query.all()
 except:
     db.create_all()
 

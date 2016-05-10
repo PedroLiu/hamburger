@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block testimonials %}
 <!-- testimonials -->
-<form name="order" method="post" action="/api/neworder">
+<form name="order" method="post" action="/api/neworder/">
 	<div id="testimonials" class="testimonials">
 		<!-- container -->
 		<div class="container">
@@ -63,7 +63,7 @@ $(".confirm").click(function(){
 			});
 		var info = '你确定提交订单吗？\n\n总价:\t';
 		info += sum;
-		if (confirm(info + order)) {  
+		if (confirm(info + order)) {
 			return true;
 		} else
 			return false;
