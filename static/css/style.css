@@ -28,7 +28,7 @@ html, body{
 	margin-top: 0;
 }
 button#showRightPush {
-	border: none;  
+	border: none;
 	padding: 3px 0 0;
 	outline: none;
 	position: fixed;
@@ -175,7 +175,7 @@ span.menu{
 	position: absolute;
 	height: 19px;
 	top: 12px;
-	right: 14px;	
+	right: 14px;
 }
 .banner-img{
 	text-align: center;
@@ -878,7 +878,7 @@ ul.social-slide li i.mac{
 	bottom: 14px;
 	right: 2%;
 	overflow: hidden;
-	z-index: 999; 
+	z-index: 999;
 	width: 24px;
 	height: 24px;
 	border: none;
@@ -960,7 +960,7 @@ ul.social-slide li i.mac{
 }
 @media (max-width:991px){
 	.services-grid:nth-child(2){
-		margin:2em 0;	
+		margin:2em 0;
 	}
 	.gallery-grid {
 		float: left;
@@ -1288,4 +1288,3 @@ li{
 	text-indent:0px;
 	background-repeat:no-repeat;
 }
-

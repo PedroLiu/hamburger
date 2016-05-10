@@ -31,7 +31,7 @@
         <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation"><a href="/">顾客这边来</a></li>
-			<li role="presentation" 
+			<li role="presentation"
 				{% if cook %}
 				class="active"
 				{% endif %}
@@ -58,7 +58,7 @@
 					  </tr>
 				  </thead>
 				  <tbody>
-				  
+
 				  {% for order in data.data %}
 				  <tr>
 					  <td>{{order.id}}</td>
@@ -67,25 +67,25 @@
 					  <td>
 						  {% for ite in order.bread.item %}
 						  <div>
-							  <span>{{ite.name}}</span> x 
+							  <span>{{ite.name}}</span> x
 							  <span>{{ite.num}}</span>
 						  </div>
 						  {% endfor %}
 						  {% for ite in order.meatpie.item %}
 						  <div>
-							  <span>{{ite.name}}</span> x 
+							  <span>{{ite.name}}</span> x
 							  <span>{{ite.num}}</span>
 						  </div>
 						  {% endfor %}
 						  {% for ite in order.caca.item %}
 						  <div>
-							  <span>{{ite.name}}</span> x 
+							  <span>{{ite.name}}</span> x
 							  <span>{{ite.num}}</span>
 						  </div>
 						  {% endfor %}
 						  {% for ite in order.m4.item %}
 						  <div>
-							  <span>{{ite.name}}</span> x 
+							  <span>{{ite.name}}</span> x
 							  <span>{{ite.num}}</span>
 						  </div>
 						  {% endfor %}
