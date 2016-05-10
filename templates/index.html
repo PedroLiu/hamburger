@@ -2,22 +2,22 @@
 {% block testimonials %}
 <!-- testimonials -->
 <!--<form method="POST" action="/api/neworder/">-->
-	<div id="testimonials" class="testimonials">
-		<!-- container -->
-		<div class="container">
-			<div class="testimonials-info">
-				<h3>Testimonials</h3>
-			</div>
-			<div class="testimonials-grids">
-				<script src="/static/jquery.js"></script>
-				<script src="/static/js/responsiveslides.min.js"></script>
-				<script src="/static/js/jquery.steps.min.js"></script>
-				<script>
+<div id="testimonials" class="testimonials">
+	<!-- container -->
+	<div class="container">
+		<div class="testimonials-info">
+			<h3>Testimonials</h3>
+		</div>
+		<div class="testimonials-grids">
+			<script src="/static/jquery.js"></script>
+			<script src="/static/js/responsiveslides.min.js"></script>
+			<script src="/static/js/jquery.steps.min.js"></script>
+			<script>
 
 // You can also use "$(window).load(function() {"
-				$(function () {
-						// Slideshow 4
-						$("#slider3").responsiveSlides({
+			$(function () {
+					// Slideshow 4
+					$("#slider3").responsiveSlides({
 auto: false,
 pager: true,
 nav: false,
@@ -30,14 +30,14 @@ $('.events').append("<li>after event fired.</li>");
 }
 });
 
-						$(".add").click(function() {
-							n = parseInt($(this).prev().val());
-							if(isNaN(n) || n<0) n=1;
-							else n=n+1;
-							$(this).prev().val(n);
-							unit = $(this).siblings(".unit").val();
-							$(this).siblings(".price").text(n*unit);
-							});
+					$(".add").click(function() {
+						n = parseInt($(this).prev().val());
+						if(isNaN(n) || n<0) n=1;
+						else n=n+1;
+						$(this).prev().val(n);
+						unit = $(this).siblings(".unit").val();
+						$(this).siblings(".price").text(n*unit);
+						});
 
 $(".min").click(function() {
 		n = parseInt($(this).next().val());
@@ -54,6 +54,10 @@ $(".confirm").click(function(){
 		$(".price").each(function(){
 			sum += parseInt($(this).text());
 			});
+		if (sum <= 0) {
+			alert("不许胡闹哟～");
+			return false;
+		}
 
 		// calculate details
 		var order = '\n';
@@ -65,24 +69,26 @@ $(".confirm").click(function(){
 			postdata[id]['item'] = new Array;
 			})
 		$(".item-name").each(function(){
-			var id = $(this).parents(".testimonials-grid").children(".cate-id").html();
-			var name = $(this).html();
 			var num = $(this).parent().siblings(".text-box").val();
-			var sid = $(this).parent().siblings(".text-box").attr("name");
-			order += '\n' + name + ' x ';
-			order += num;
-			var tmp = new Object;
-			tmp['sid'] = sid;
-			tmp['name'] = name;
-			tmp['num'] = parseInt(num);
-			postdata[id]['item'].push(tmp);
+			if (num > 0) {
+				var id = $(this).parents(".testimonials-grid").children(".cate-id").html();
+				var name = $(this).html();
+				var sid = $(this).parent().siblings(".text-box").attr("name");
+				order += '\n' + name + ' x ';
+				order += num;
+				var tmp = new Object;
+				tmp['sid'] = sid;
+				tmp['name'] = name;
+				tmp['num'] = parseInt(num);
+				postdata[id]['item'].push(tmp);
+			}
 			});
 		var info = '你确定提交订单吗？\n\n总价:\t';
 		info += sum;
 		<!--alert(JSON.stringify(postdata))-->
-		if (!confirm(info + order)) {
-		return false;
-		}
+			if (!confirm(info + order)) {
+				return false;
+			}
 		$.ajax({
 type:'POST',
 url:'/api/neworder/',
@@ -103,42 +109,42 @@ alert('!!!' + JSON.stringify(e));
 
 });
 
-				</script>
+			</script>
 
-				<div id="top" class="callbacks_container">
-					<ul class="rslides" id="slider3">
-						{% for cate in data %}
+			<div id="top" class="callbacks_container">
+				<ul class="rslides" id="slider3">
+					{% for cate in data %}
 
-						<li>
-						<div class="testimonials-grid">
-							<div class="cate-id" style="display:none">{{cate.id}}</div>
-							<p><span><h1 class="cate-name">{{cate.name}}</h1></span></p><br><br>
+					<li>
+					<div class="testimonials-grid">
+						<div class="cate-id" style="display:none">{{cate.id}}</div>
+						<p><span><h1 class="cate-name">{{cate.name}}</h1></span></p><br><br>
 
-							<div class="row">
-								{% for item in cate.item %}
-								<div class="col-sm-4">
-									<img src="/static/images/{{item.pic}}" alt="" />
-									<p><span class="item-name">{{item.name}}</span></p>
-									<input class="min" name="" type="button" value="-" />
-									<input class="text-box" name="{{item.sid}}" type="text" value="0" style="width:25px;" />
-									<input class="add" name="" type="button" value="+" />
-									&nbsp;&nbsp;&nbsp;￥<span class="price">0</span>
-									<input class="unit" type="hidden" value={{item.price}} /><br><br>
-								</div>
-								{% endfor %}
+						<div class="row">
+							{% for item in cate.item %}
+							<div class="col-sm-4">
+								<img src="/static/images/{{item.pic}}" alt="" />
+								<p><span class="item-name">{{item.name}}</span></p>
+								<input class="min" name="" type="button" value="-" />
+								<input class="text-box" name="{{item.sid}}" type="text" value="0" style="width:25px;" />
+								<input class="add" name="" type="button" value="+" />
+								&nbsp;&nbsp;&nbsp;￥<span class="price">0</span>
+								<input class="unit" type="hidden" value={{item.price}} /><br><br>
 							</div>
-
+							{% endfor %}
 						</div>
-						</li>
-						{% endfor %}
-					</ul>
-				</div>
+
+					</div>
+					</li>
+					{% endfor %}
+				</ul>
 			</div>
 		</div>
-		<!-- //container -->
 	</div>
-	<div align="center">
-		<input type="submit" value="点好啦~" class="confirm">
-	</div>
+	<!-- //container -->
+</div>
+<div align="center">
+	<input type="submit" value="点好啦~" class="confirm">
+</div>
 <!-- //testimonials -->
 {% endblock %}
