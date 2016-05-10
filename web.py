@@ -66,26 +66,26 @@ class order(db.Model):
     def pay(self):
         if self.status != 'prepaying':
             abort(500)
-        self.status = 'payed'
-        db.session.commit()
+            self.status = 'payed'
+            db.session.commit()
 
     def cook(self):
         if self.status != 'payed':
             abort(500)
-        self.status = 'cooking'
-        db.session.commit()
+            self.status = 'cooking'
+            db.session.commit()
 
     def deliver(self):
         if self.status != 'cooking':
             abort(500)
-        self.status = 'delivering'
-        db.session.commit()
+            self.status = 'delivering'
+            db.session.commit()
 
     def finish(self):
         if self.status != 'delivering':
             abort(500)
-        self.status = 'finished'
-        db.session.commit()
+            self.status = 'finished'
+            db.session.commit()
 
 
     def getDetail(self):
@@ -122,19 +122,19 @@ class orderView:
         #pay an order
         if session.get('myOrder', None) == None:
             abort(500)
-        myOrder = order.query.filter_by(id = session['myOrder']).first()
-        myOrder.pay()
-        detail = myOrder.getDetail()
-        return render_template('payed.html', detail = detail)
+            myOrder = order.query.filter_by(id = session['myOrder']).first()
+            myOrder.pay()
+            detail = myOrder.getDetail()
+            return render_template('payed.html', detail = detail)
 
     def finish(self):
         #finish an order
         if session.get('myOrder', None) == None:
             abort(500)
-        myOrder = order.query.filter_by(id = session['myOrder']).first()
-        myOrder.finish()
-        detail = myOrder.getDetail()
-        return render_template('finished.html', detail = detail)
+            myOrder = order.query.filter_by(id = session['myOrder']).first()
+            myOrder.finish()
+            detail = myOrder.getDetail()
+            return render_template('finished.html', detail = detail)
 
 
 
@@ -146,9 +146,52 @@ class orderListView:
         return render_template('orderlist.html')
 
 class testingClass:
+    def getorder(self):
+        data = [
+            {
+                'id':'bread',
+                'name':'面包',
+                'item': [
+                    {
+                        'sid':'bread1',
+                        'name':'松软面包',
+                        'price':1,
+                        'pic':'t1.jpg'
+                    },
+                    {
+                        'sid':'bread2',
+                        'name':'白面包',
+                        'price':2,
+                        'pic':'t2.jpg'
+                    }
+                ]
+            },
+
+            {
+                'id':'meatpie',
+                'name':'肉饼',
+                'item': [
+                    {
+                        'sid':'meat1',
+                        'name':'牛肉',
+                        'price':1,
+                        'pic':'t1.jpg'
+                    },
+                    {
+                        'sid':'meat2',
+                        'name':'鸡腿肉',
+                        'price':2,
+                        'pic':'t2.jpg'
+                    }
+                ]
+            }
+        ]
+        return data
+
+
     def menu(self):
         d = {
-            'step': ['bread', 'meatpie', 'vegetable', 'cheese', 'sauce', 'other'],
+            'cate': ['bread', 'meatpie', 'vegetable', 'cheese', 'sauce', 'other'],
             'bread': [ u'松软面包', u'白面包', u'巨菜叶' ],
             'meatpie': [ '牛肉', '鸡腿肉', '鳕鱼肉', '虾肉' ],
             'vegetable': [ '生菜', '收菜' ],
@@ -165,7 +208,7 @@ class testingClass:
         return d
 
 # get menu data
-@app.route('/api/menu', methods=['GET'])
+@app.route('/api/getorder', methods=['GET'])
 def get_menu():
     # get menu data from database
     data = testingClass().menu()
@@ -184,8 +227,12 @@ def new_order():
 # index
 @app.route('/', methods=['GET'])
 def index():
-    # show menu
-    return orderView().showMenu()
+    return render_template('index.html', data = testingClass().getorder())
+
+# cook
+@app.route('/cook', methods=['GET'])
+def cook_index():
+    return render_template('cook.html', data = testingClass().getorder())
 
 # for test!!!
 @app.route('/test', methods=['GET', 'POST'])
@@ -197,4 +244,4 @@ try:
 except:
     db.create_all()
 
-app.run(host = '0.0.0.0', port = 8088, threaded=True)
+app.run(host = '0.0.0.0', port = 5000, threaded=True)

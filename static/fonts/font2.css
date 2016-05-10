@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'Philosopher';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Philosopher'), url(http://fontstatic.useso.com/s/philosopher/v7/OttjxgcoEsufOGSINYBGLZ0EAVxt0G0biEntp43Qt6E.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Philosopher';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Philosopher Bold'), local('Philosopher-Bold'), url(http://fontstatic.useso.com/s/philosopher/v7/napvkewXG9Gqby5vwGHICJ_TkvowlIOtbR7ePgFOpF4.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Philosopher';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Philosopher Italic'), local('Philosopher-Italic'), url(http://fontstatic.useso.com/s/philosopher/v7/_9Hnc_gz9k7Qq6uKaeHKmeLrC4Du4e_yfTJ8Ol60xk0.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Philosopher';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Philosopher Bold Italic'), local('Philosopher-BoldItalic'), url(http://fontstatic.useso.com/s/philosopher/v7/PuKlryTcvTj7-qZWfLCFIGsGzsqhEorxQDpu60nfWEc.ttf) format('truetype');
+}
