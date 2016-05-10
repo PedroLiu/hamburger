@@ -34,8 +34,8 @@ $(".add").click(function() {
 		if(isNaN(n) || n<0) n=1;
 		else n=n+1;
 		$(this).prev().val(n);
-		unit = $(this).next("span").next("input").val();
-		$(this).next("span").text(n*unit);
+		unit = $(this).siblings(".unit").val();
+		$(this).siblings(".price").text(n*unit);
 		});
 
 $(".min").click(function() {
@@ -43,9 +43,8 @@ $(".min").click(function() {
 		if(isNaN(n) || n<1) n=0;
 		else n=n-1;
 		$(this).next().val(n);
-		unit = $(this).next("input").next("input").next("span").next("input").val();
-		$(this).next("input").next("input").next("span").text(n*unit);
-		setTotal();
+		unit = $(this).siblings(".unit").val();
+		$(this).siblings(".price").text(n*unit);
 		});
 
 $(".confirm").click(function(){
@@ -59,7 +58,7 @@ $(".confirm").click(function(){
 		var order = '\n';
 		$(".item-name").each(function(){
 			order += '\n' + $(this).html() + ' x ';
-			order += $(this).parent().next().next().next(".text-box").val();
+			order += $(this).parent().siblings(".text-box").val();
 			});
 		var info = '你确定提交订单吗？\n\n总价:\t';
 		info += sum;
@@ -80,15 +79,15 @@ $(".confirm").click(function(){
 							<p><span><h1>{{cate.name}}</h1></span></p><br><br>
 
 							{% for item in cate.item %}
-							<p>
+							<div>
 							<img src="/static/images/{{item.pic}}" alt="" />
-							<p><span class="item-name">{{item.name}}</span></p><br>
+							<p><span class="item-name">{{item.name}}</span></p>
 							<input class="min" name="" type="button" value="-" />
 							<input class="text-box" name="{{item.sid}}" type="text" value="0" style="width:25px;" />
 							<input class="add" name="" type="button" value="+" />
 							&nbsp;&nbsp;&nbsp;￥<span class="price">0</span>
-							<input class="" type="hidden" value={{item.price}} />
-							</p>
+							<input class="unit" type="hidden" value={{item.price}} /><br><br>
+							</div>
 							{% endfor %}
 
 						</div>
