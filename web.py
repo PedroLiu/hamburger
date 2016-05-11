@@ -49,12 +49,12 @@ class order(db.Model):
 
     def getOrder(self):
         try:
-            self.bread = request.form['bread']
-            self.meatpie = request.form['meatpie']
-            self.vegetable = request.form['vegetable']
-            self.cheese = request.form['cheese']
-            self.sauce = request.form['sauce']
-            self.other = request.form['other']
+            self.bread = request.json['bread']
+            self.meatpie = request.json['meatpie']
+            self.vegetable = request.json['vegetable']
+            self.cheese = request.json['cheese']
+            self.sauce = request.json['sauce']
+            self.other = request.json['other']
             self.status = 'prepaying'
             self.time = datetime.utcnow()
         except:
@@ -142,21 +142,28 @@ class orderView:
 
 class orderListView:
 
+    head = [ "编号", "时间", "状态", "食材", "操作" ]
     def showPayedList(self):
         #show list
         orders = order.query.filter_by(status='payed').all()
-        result = []
+        result = {
+            'head': head,
+            'data': [],
+        }
         for item in orders:
-            result.append(item.getDetail())
+            result['data'].append(item.getDetail())
 
         return result
 
     def showCookedList(self):
         #show list
         orders = order.query.filter_by(status='cooked').all()
-        result = []
+        result = {
+            'head': head,
+            'data': [],
+        }
         for item in orders:
-            result.append(item.getDetail())
+            result['data'].append(item.getDetail())
 
         return result
 
