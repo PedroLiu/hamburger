@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+#coding=utf-8
 from flask import Flask, request, session, render_template, redirect, abort, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -14,7 +14,7 @@ class priceDealer:
     # a json data, figure out how much every part should be charged
     price = {}
 
-    def init(self, price):
+    def __init__(self, price):
         #initialize the price list
         self.price = price
 
@@ -24,14 +24,14 @@ class priceDealer:
 
 class order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    bread = db.Column(db.String(30))
-    meatpie = db.Column(db.String(30))
-    vegetable = db.Column(db.String(30))
-    cheese = db.Column(db.String(30))
-    sauce = db.Column(db.String(30))
-    other = db.Column(db.String(30))
-    status = db.Column(db.String(30))
-    time = db.Column(db.String(30))
+    bread = db.Column(db.String(200))
+    meatpie = db.Column(db.String(200))
+    vegetable = db.Column(db.String(200))
+    cheese = db.Column(db.String(200))
+    sauce = db.Column(db.String(200))
+    other = db.Column(db.String(200))
+    status = db.Column(db.String(200))
+    time = db.Column(db.String(200))
 
 
     def __init__(self, bread = '' , meatpie = '' , vegetable = '' , cheese = '', sauce = '', other = '' , status = '', time=  ''):
@@ -142,9 +142,23 @@ class orderView:
 
 class orderListView:
 
-    def showList(self):
+    def showPayedList(self):
         #show list
-        return render_template('orderlist.html')
+        orders = order.query.filter_by(status='payed').all()
+        result = []
+        for item in orders:
+            result.append(item.getDetail())
+
+        return result
+
+    def showCookedList(self):
+        #show list
+        orders = order.query.filter_by(status='cooked').all()
+        result = []
+        for item in orders:
+            result.append(item.getDetail())
+
+        return result
 
 
 # get menu data
@@ -200,9 +214,12 @@ def reception_index():
 def test():
     return render_template('test.html')
 
-try:
-    order.query.all()
-except:
-    db.create_all()
+if __name__ == 'main':
+    try:
+        order.query.all()
+    except:
+        db.create_all()
+    global priceDealerInstance
+    priceDealerInstance = priceDealer.priceDealer({})
 
-app.run(host = '0.0.0.0', port = 5000, threaded=True)
+    app.run(host = '0.0.0.0', port = 5000, threaded=True)
