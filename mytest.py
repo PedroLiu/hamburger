@@ -8,20 +8,20 @@ class testingClass:
                     {
                         'sid':'bread1',
                         'name':'松软面包',
-                        'price':1,
-                        'pic':'t1.jpg'
+                        'price':2,
+                        'pic':'bread1.jpg'
+                    },
+                    {
+                        'sid':'bread2',
+                        'name':'白面包',
+                        'price':2,
+                        'pic':'bread2.jpg'
                     },
                     {
                         'sid':'bread3',
-                        'name':'面包3',
-                        'price':3,
-                        'pic':'t1.jpg'
-                    },
-                    {
-                        'sid':'bread4',
-                        'name':'面包4',
-                        'price':4,
-                        'pic':'t2.jpg'
+                        'name':'巨菜叶',
+                        'price':1,
+                        'pic':'bread3.jpg'
                     }
                 ]
             },
@@ -32,71 +32,161 @@ class testingClass:
                     {
                         'sid':'meat1',
                         'name':'牛肉',
-                        'price':1,
-                        'pic':'t1.jpg'
+                        'price':5,
+                        'pic':'meat1.jpg'
                     },
                     {
                         'sid':'meat2',
                         'name':'鸡腿肉',
-                        'price':2,
-                        'pic':'t2.jpg'
+                        'price':3,
+                        'pic':'meat2.jpg'
+                    },
+                    {
+                        'sid':'meat3',
+                        'name':'鳕鱼肉',
+                        'price':4,
+                        'pic':'meat3.jpg'
+                    },
+                    {
+                        'sid':'meat4',
+                        'name':'虾肉',
+                        'price':4,
+                        'pic':'meat4.jpg'
                     }
                 ]
             },
             {
-                'id':'caca',
-                'name':'第三种',
+                'id':'vegetable',
+                'name':'蔬菜',
                 'item': [
                     {
-                        'sid':'m31',
-                        'name':'牛肉',
+                        'sid':'veg1',
+                        'name':'生菜',
                         'price':1,
-                        'pic':'t1.jpg'
+                        'pic':'veg1.jpg'
                     },
                     {
-                        'sid':'meat2',
-                        'name':'鸡腿肉',
+                        'sid':'veg2',
+                        'name':'番茄',
                         'price':2,
-                        'pic':'t2.jpg'
+                        'pic':'veg2.jpg'
+                    },
+                    {
+                        'sid':'veg3',
+                        'name':'辣椒圈',
+                        'price':1,
+                        'pic':'veg3.jpg'
+                    },
+                    {
+                        'sid':'veg4',
+                        'name':'洋葱',
+                        'price':2,
+                        'pic':'veg4.jpg'
                     }
                 ]
             },
-        {
-            'id':'m4',
-            'name':'第四种',
-            'item': [
-                {
-                    'sid':'m41',
-                    'name':'牛肉',
-                    'price':1,
-                    'pic':'t1.jpg'
-                },
-                {
-                    'sid':'m42',
-                    'name':'鸡腿肉',
-                    'price':2,
-                    'pic':'t2.jpg'
-                }
-            ]
-        },
-        {
-            'id':'m5',
-            'name':'第五种',
-            'item': [
-                {
-                    'sid':'meat51',
-                    'name':'牛肉',
-                    'price':1,
-                    'pic':'t1.jpg'
-                },
-                {
-                    'sid':'meat52',
-                    'name':'鸡腿肉',
-                    'price':2,
-                    'pic':'t2.jpg'
-                }
-            ]
-        }
+            {
+                'id':'cheese',
+                'name':'芝士',
+                'item': [
+                    {
+                        'sid':'cheese1',
+                        'name':'黄芝士',
+                        'price':2,
+                        'pic':'cheese1.jpg'
+                    },
+                    {
+                        'sid':'cheese2',
+                        'name':'白芝士',
+                        'price':2,
+                        'pic':'cheese2.jpg'
+                    },
+                    {
+                        'sid':'cheese3',
+                        'name':'芝士条',
+                        'price':2,
+                        'pic':'cheese3.jpg'
+                    }
+                ]
+            },
+            {
+                'id':'sauce',
+                'name':'酱料',
+                'item': [
+                    {
+                        'sid':'sauce1',
+                        'name':'芥末酱',
+                        'price':1,
+                        'pic':'sauce1.jpg'
+                    },
+                    {
+                        'sid':'sauce2',
+                        'name':'蛋黄酱',
+                        'price':1,
+                        'pic':'sauce2.jpg'
+                    },
+                    {
+                        'sid':'sauce3',
+                        'name':'烧烤酱',
+                        'price':1,
+                        'pic':'sauce2.jpg'
+                    },
+                    {
+                        'sid':'sauce4',
+                        'name':'香辣酱',
+                        'price':1,
+                        'pic':'sauce4.jpg'
+                    },
+                    {
+                        'sid':'sauce5',
+                        'name':'千岛酱',
+                        'price':1,
+                        'pic':'sauce5.jpg'
+                    },
+                    {
+                        'sid':'sauce6',
+                        'name':'番茄酱',
+                        'price':1,
+                        'pic':'sauce6.jpg'
+                    }
+                ]
+            },
+            {
+                'id':'other',
+                'name':'更多',
+                'item': [
+                    {
+                        'sid':'bacon',
+                        'name':'培根',
+                        'price':3,
+                        'pic':'bacon.jpg'
+                    },
+                    {
+                        'sid':'Avogadro',
+                        'name':'牛油果泥',
+                        'price':3,
+                        'pic':'Avogadro.jpg'
+                    },
+                    {
+                        'sid':'cornchip',
+                        'name':'玉米脆片',
+                        'price':2,
+                        'pic':'cornchip.jpg'
+                    },
+                    {
+                        'sid':'friedmushroom',
+                        'name':'香煎蘑菇',
+                        'price':1,
+                        'pic':'friedmushroom.jpg'
+                    },
+                    {
+                        'sid':'omelette',
+                        'name':'煎蛋',
+                        'price':1,
+                        'pic':'omelette.jpg'
+                    }
+                ]
+            }
         ]
         return data
 
