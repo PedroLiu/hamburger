@@ -166,6 +166,19 @@ def new_order():
     # back to menu
     return '/'
 
+# change state
+@app.route('/api/shift/', methods=['POST'])
+def shift_order():
+    print(request.json);
+    if (request.json['from'] == 'cook'):
+        print('cook has done ', request.json['id']);
+    elif (request.json['from'] == 'reception'):
+        print('reception has send ', request.json['id']);
+    else:
+        print('Error !!!')
+        abort(500)
+    return '/' + request.json['from'] + '/'
+
 # index
 @app.route('/', methods=['GET'])
 def index():
