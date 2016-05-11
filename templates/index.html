@@ -95,9 +95,9 @@ url:'/api/neworder/',
 data:JSON.stringify(postdata),
 contentType: "application/json",
 success:function(result){
-<!--alert(JSON.stringify(result));-->
-alert("提交成功！");
-$(document.body).html(result);
+alert("提交成功！\n您的订单号是: " + result);
+window.location.href = '/';
+<!--$(document.body).html(result);-->
 },
 error:function(e){
 alert('!!!\n' + JSON.stringify(e));

@@ -23,12 +23,21 @@
 	<![endif]-->
 <script type="text/javascript" src="/static/jquery.js"></script>
 <script>
+
+{% if cook %}
+from = 'cook';
+{% endif %}
+{% if reception %}
+from = 'reception';
+{% endif %}
+
 function shift_order(id) {
 	if (!confirm("确定完成订单" + id + "么？")) {
 		return false;
 	}
 
-	var postdata = { 'from' : 'cook', 'id': id  };
+
+	var postdata = { 'from' : from, 'id': id  };
 
 	$.ajax({
 type:'POST',
@@ -37,7 +46,6 @@ data:JSON.stringify(postdata),
 contentType: "application/json",
 dataType:'text',
 success:function(result){
-<!--alert(JSON.stringify(result));-->
 alert("提交成功！");
 window.location.href = result;
 },
@@ -90,25 +98,37 @@ alert('!!!' + JSON.stringify(e));
 				<td>{{order.time}}</td>
 				<td>{{order.status}}</td>
 				<td>
-					{% for ite in order.bread.item %}
+					{% for ite in order.data.bread.item %}
 					<div class="col-sm-4">
 						<span>{{ite.name}}</span> x 
 						<span>{{ite.num}}</span>
 					</div>
 					{% endfor %}
-					{% for ite in order.meatpie.item %}
+					{% for ite in order.data.meatpie.item %}
 					<div class="col-sm-4">
 						<span>{{ite.name}}</span> x 
 						<span>{{ite.num}}</span>
 					</div>
 					{% endfor %}
-					{% for ite in order.caca.item %}
+					{% for ite in order.data.vegetable.item %}
 					<div class="col-sm-4">
 						<span>{{ite.name}}</span> x 
 						<span>{{ite.num}}</span>
 					</div>
 					{% endfor %}
-					{% for ite in order.m4.item %}
+					{% for ite in order.data.sauce.item %}
+					<div class="col-sm-4">
+						<span>{{ite.name}}</span> x 
+						<span>{{ite.num}}</span>
+					</div>
+					{% endfor %}
+					{% for ite in order.data.cheese.item %}
+					<div class="col-sm-4">
+						<span>{{ite.name}}</span> x 
+						<span>{{ite.num}}</span>
+					</div>
+					{% endfor %}
+					{% for ite in order.data.other.item %}
 					<div class="col-sm-4">
 						<span>{{ite.name}}</span> x 
 						<span>{{ite.num}}</span>
