@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-
+#coding=utf-8
 from flask import Flask, request, session, render_template, redirect, abort, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
+from mytest import *
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///orders.db'
@@ -13,7 +14,7 @@ class priceDealer:
     # a json data, figure out how much every part should be charged
     price = {}
 
-    def init(self, price):
+    def __init__(self, price):
         #initialize the price list
         self.price = price
 
@@ -23,14 +24,14 @@ class priceDealer:
 
 class order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    bread = db.Column(db.String(30))
-    meatpie = db.Column(db.String(30))
-    vegetable = db.Column(db.String(30))
-    cheese = db.Column(db.String(30))
-    sauce = db.Column(db.String(30))
-    other = db.Column(db.String(30))
-    status = db.Column(db.String(30))
-    time = db.Column(db.String(30))
+    bread = db.Column(db.String(200))
+    meatpie = db.Column(db.String(200))
+    vegetable = db.Column(db.String(200))
+    cheese = db.Column(db.String(200))
+    sauce = db.Column(db.String(200))
+    other = db.Column(db.String(200))
+    status = db.Column(db.String(200))
+    time = db.Column(db.String(200))
 
 
     def __init__(self, bread = '' , meatpie = '' , vegetable = '' , cheese = '', sauce = '', other = '' , status = '', time=  ''):
@@ -66,26 +67,26 @@ class order(db.Model):
     def pay(self):
         if self.status != 'prepaying':
             abort(500)
-        self.status = 'payed'
-        db.session.commit()
+            self.status = 'payed'
+            db.session.commit()
 
     def cook(self):
         if self.status != 'payed':
             abort(500)
-        self.status = 'cooking'
-        db.session.commit()
+            self.status = 'cooking'
+            db.session.commit()
 
     def deliver(self):
         if self.status != 'cooking':
             abort(500)
-        self.status = 'delivering'
-        db.session.commit()
+            self.status = 'delivering'
+            db.session.commit()
 
     def finish(self):
         if self.status != 'delivering':
             abort(500)
-        self.status = 'finished'
-        db.session.commit()
+            self.status = 'finished'
+            db.session.commit()
 
 
     def getDetail(self):
@@ -122,50 +123,46 @@ class orderView:
         #pay an order
         if session.get('myOrder', None) == None:
             abort(500)
-        myOrder = order.query.filter_by(id = session['myOrder']).first()
-        myOrder.pay()
-        detail = myOrder.getDetail()
-        return render_template('payed.html', detail = detail)
+            myOrder = order.query.filter_by(id = session['myOrder']).first()
+            myOrder.pay()
+            detail = myOrder.getDetail()
+            return render_template('payed.html', detail = detail)
 
     def finish(self):
         #finish an order
         if session.get('myOrder', None) == None:
             abort(500)
-        myOrder = order.query.filter_by(id = session['myOrder']).first()
-        myOrder.finish()
-        detail = myOrder.getDetail()
-        return render_template('finished.html', detail = detail)
+            myOrder = order.query.filter_by(id = session['myOrder']).first()
+            myOrder.finish()
+            detail = myOrder.getDetail()
+            return render_template('finished.html', detail = detail)
 
 
 
 
 class orderListView:
 
-    def showList(self):
+    def showPayedList(self):
         #show list
-        return render_template('orderlist.html')
+        orders = order.query.filter_by(status='payed').all()
+        result = []
+        for item in orders:
+            result.append(item.getDetail())
 
-class testingClass:
-    def menu(self):
-        d = {
-            'step': ['bread', 'meatpie', 'vegetable', 'cheese', 'sauce', 'other'],
-            'bread': [ u'松软面包', u'白面包', u'巨菜叶' ],
-            'meatpie': [ '牛肉', '鸡腿肉', '鳕鱼肉', '虾肉' ],
-            'vegetable': [ '生菜', '收菜' ],
-            'cheese': [ 'ch1', 'ch2' ],
-            'sauce': [ 's1', 'asf' ],
-            'other': [ 'o1', '02', 'o3' ],
-            'bye': [
-                '着急吃不了(热)豆腐哟~',
-                '打把炉石就给您端上来了~',
-                '请皇上稍等，微臣这就去安排~',
-                '能不能给我一首歌的时间？'
-            ]
-        }
-        return d
+        return result
+
+    def showCookedList(self):
+        #show list
+        orders = order.query.filter_by(status='cooked').all()
+        result = []
+        for item in orders:
+            result.append(item.getDetail())
+
+        return result
+
 
 # get menu data
-@app.route('/api/menu', methods=['GET'])
+@app.route('/api/getorder/', methods=['GET'])
 def get_menu():
     # get menu data from database
     data = testingClass().menu()
@@ -173,28 +170,56 @@ def get_menu():
     return jsonify(data)
 
 # post a new order
-@app.route('/api/neworder', methods=['POST'])
+@app.route('/api/neworder/', methods=['POST'])
 def new_order():
     # show the request for testing
-    for k,v in request.form.items():
-        print(k, '=', request.form[k])
+    print(request.json);
+    for k in request.json:
+        print(k, '=', request.json[k])
+    #return jsonify(request.json)
     # back to menu
-    return redirect('/')
+    return '/'
+
+# change state
+@app.route('/api/shift/', methods=['POST'])
+def shift_order():
+    print(request.json);
+    if (request.json['from'] == 'cook'):
+        print('cook has done ', request.json['id']);
+    elif (request.json['from'] == 'reception'):
+        print('reception has send ', request.json['id']);
+    else:
+        print('Error !!!')
+        abort(500)
+    return '/' + request.json['from'] + '/'
 
 # index
 @app.route('/', methods=['GET'])
 def index():
-    # show menu
-    return orderView().showMenu()
+    return render_template('index.html', data = testingClass().getMenu())
+
+# cook
+@app.route('/cook/', methods=['GET'])
+def cook_index():
+    #return render_template('cook.html', cook = True, data = testingClass().getOrder())
+    return render_template('cook.html', cook = True, data = testingClass().getOrder())
+
+# reception
+@app.route('/reception/', methods=['GET'])
+def reception_index():
+    return render_template('cook.html', reception = True, data = testingClass().getOrder())
 
 # for test!!!
-@app.route('/test', methods=['GET', 'POST'])
+@app.route('/test/', methods=['GET', 'POST'])
 def test():
     return render_template('test.html')
 
-try:
-    User.query.all()
-except:
-    db.create_all()
+if __name__ == 'main':
+    try:
+        order.query.all()
+    except:
+        db.create_all()
+    global priceDealerInstance
+    priceDealerInstance = priceDealer.priceDealer({})
 
-app.run(host = '0.0.0.0', port = 8088, threaded=True)
+    app.run(host = '0.0.0.0', port = 5000, threaded=True)

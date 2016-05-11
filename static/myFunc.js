@@ -1,14 +1,14 @@
-$(document).ready(function(){
-	$.get("/api/menu",function(data,status){
-		new Date().getTime();
-		if (status == 'success') {
-			bye = data['bye'];
-			add(data);
-		} else {
-			alert('数据读取失败！我也不知道为什么~');
-		}
-	});
-});
+//$(document).ready(function(){
+	//$.get("/api/menu",function(data,status){
+		//new Date().getTime();
+		//if (status == 'success') {
+			//bye = data['bye'];
+			//add(data);
+		//} else {
+			//alert('数据读取失败！我也不知道为什么~');
+		//}
+	//});
+//});
 
 function add(data) {
 	for (var step in data['step']) {
