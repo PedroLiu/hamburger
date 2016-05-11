@@ -129,7 +129,7 @@ class testingClass:
                         'sid':'sauce3',
                         'name':'烧烤酱',
                         'price':1,
-                        'pic':'sauce2.jpg'
+                        'pic':'sauce3.jpg'
                     },
                     {
                         'sid':'sauce4',
