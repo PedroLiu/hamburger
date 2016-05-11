@@ -58,6 +58,7 @@ class order(db.Model):
             self.status = 'prepaying'
             self.time = datetime.utcnow()
         except:
+            print('order construct error')
             abort(500)
 
     def getPrice(self):
@@ -113,11 +114,16 @@ class orderView:
         # submit order and show paying page
         newOrder = order()
         newOrder.getOrder()
+        print(newOrder.id)
+        print(newOrder.bread)
+        print(newOrder.meatpie)
+        print('!!!')
         db.session.add(newOrder)
         db.session.commit()
         detail = newOrder.getDetail()
         session['myOrder'] = newOrder.id
-        return render_template('paying.html', detail = detail)
+        #return render_template('paying.html', detail = detail)
+        return render_template('index.html', data = testingClass().getMenu())
 
     def pay(self):
         #pay an order
@@ -159,13 +165,14 @@ class orderListView:
         #show list
         orders = order.query.filter_by(status='cooked').all()
         result = {
-            'head': head,
+            'head': self.head,
             'data': [],
         }
         for item in orders:
             result['data'].append(item.getDetail())
-
-        return result
+        
+        print(result)
+        return render_template('cook.html', cook = True, data = result)
 
 
 # get menu data
@@ -183,9 +190,9 @@ def new_order():
     print(request.json);
     for k in request.json:
         print(k, '=', request.json[k])
-    #return jsonify(request.json)
     # back to menu
-    return '/'
+    #return render_template('index.html', data = testingClass().getMenu())
+    return orderView().submitOrder();
 
 # change state
 @app.route('/api/shift/', methods=['POST'])
@@ -209,7 +216,7 @@ def index():
 @app.route('/cook/', methods=['GET'])
 def cook_index():
     #return render_template('cook.html', cook = True, data = testingClass().getOrder())
-    return render_template('cook.html', cook = True, data = testingClass().getOrder())
+    return orderListView().showCookedList();
 
 # reception
 @app.route('/reception/', methods=['GET'])
@@ -229,4 +236,5 @@ if __name__ == '__main__':
     global priceDealerInstance
     priceDealerInstance = priceDealer({})
 
-    app.run(host = '0.0.0.0', port = 5000, threaded=True)
+    #app.run(host = '0.0.0.0', port = 5000, threaded=True)
+    app.run(host = '::', port = 5000, threaded=True)

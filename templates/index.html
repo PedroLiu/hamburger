@@ -94,14 +94,13 @@ type:'POST',
 url:'/api/neworder/',
 data:JSON.stringify(postdata),
 contentType: "application/json",
-dataType:'text',
 success:function(result){
 <!--alert(JSON.stringify(result));-->
 alert("提交成功！");
-window.location.href = result;
+$(document.body).html(result);
 },
 error:function(e){
-alert('!!!' + JSON.stringify(e));
+alert('!!!\n' + JSON.stringify(e));
 }
 });
 
@@ -126,7 +125,7 @@ alert('!!!' + JSON.stringify(e));
 								<img src="/static/images/{{item.pic}}" alt="" />
 								<p><span class="item-name">{{item.name}}</span></p>
 								<input class="min" name="" type="button" value="-" />
-								<input class="text-box" name="{{item.sid}}" type="text" value="0" style="width:25px;" />
+								<input class="text-box" name="{{item.sid}}" type="text" value="0" style="width:25px;" readonly="readonly"/>
 								<input class="add" name="" type="button" value="+" />
 								&nbsp;&nbsp;&nbsp;￥<span class="price">0</span>
 								<input class="unit" type="hidden" value={{item.price}} /><br><br>
