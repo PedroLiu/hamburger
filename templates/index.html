@@ -6,7 +6,7 @@
 	<!-- container -->
 	<div class="container">
 		<div class="testimonials-info">
-			<h3>Testimonials</h3>
+			<h3>个性化菜单</h3>
 		</div>
 		<div class="testimonials-grids">
 			<script src="/static/jquery.js"></script>
@@ -55,8 +55,8 @@ $(".confirm").click(function(){
 			sum += parseInt($(this).text());
 			});
 		if (sum <= 0) {
-			alert("不许胡闹哟～");
-			return false;
+		alert("不许胡闹哟～");
+		return false;
 		}
 
 		// calculate details
@@ -71,16 +71,16 @@ $(".confirm").click(function(){
 		$(".item-name").each(function(){
 			var num = $(this).parent().siblings(".text-box").val();
 			if (num > 0) {
-				var id = $(this).parents(".testimonials-grid").children(".cate-id").html();
-				var name = $(this).html();
-				var sid = $(this).parent().siblings(".text-box").attr("name");
-				order += '\n' + name + ' x ';
-				order += num;
-				var tmp = new Object;
-				tmp['sid'] = sid;
-				tmp['name'] = name;
-				tmp['num'] = parseInt(num);
-				postdata[id]['item'].push(tmp);
+			var id = $(this).parents(".testimonials-grid").children(".cate-id").html();
+			var name = $(this).html();
+			var sid = $(this).parent().siblings(".text-box").attr("name");
+			order += '\n' + name + ' x ';
+			order += num;
+			var tmp = new Object;
+			tmp['sid'] = sid;
+			tmp['name'] = name;
+			tmp['num'] = parseInt(num);
+			postdata[id]['item'].push(tmp);
 			}
 			});
 		var info = '你确定提交订单吗？\n\n总价:\t';
@@ -142,8 +142,8 @@ alert('!!!\n' + JSON.stringify(e));
 	</div>
 	<!-- //container -->
 </div>
-<div align="center">
-	<input type="submit" value="点好啦~" class="confirm">
+<div class="banner-button green-button" align="center">
+	<a href="#testimonials" class="confirm" title="点击绿色的圆圈切换食材~" style="background-color: rgb(164, 201, 94);">点好啦~</a>
 </div>
 <!-- //testimonials -->
 {% endblock %}
