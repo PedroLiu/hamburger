@@ -214,12 +214,12 @@ def reception_index():
 def test():
     return render_template('test.html')
 
-if __name__ == 'main':
+if __name__ == '__main__':
     try:
         order.query.all()
     except:
         db.create_all()
     global priceDealerInstance
-    priceDealerInstance = priceDealer.priceDealer({})
+    priceDealerInstance = priceDealer({})
 
     app.run(host = '0.0.0.0', port = 5000, threaded=True)
