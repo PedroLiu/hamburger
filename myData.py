@@ -1,3 +1,5 @@
+#coding=utf-8
+
 class myData:
     def getMenu(self):
         data = [
@@ -189,5 +191,3 @@ class myData:
             }
         ]
         return data
-
-
