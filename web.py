@@ -3,7 +3,7 @@
 from flask import Flask, request, session, render_template, redirect, abort, jsonify
 from datetime import datetime
 from myData import *
-from database import db, order, menu
+from database import db, order, menu, category
 import flask_admin as admin
 from flask_admin.contrib import sqla
 
@@ -108,9 +108,14 @@ class MenuAdmin(sqla.ModelView):
     column_display_pk = True
     form_columns = ['id', 'CategoryId', 'CategoryName', 'sid', 'name', 'price', 'pic', 'calory', 'protein', 'fat', 'carbohydrate', 'variantsid']
 
+class CategoryAdmin(sqla.ModelView):
+    column_display_pk = True
+    form_columns = ['id', 'name']
+
 admin = admin.Admin(app, name='麦德劳后台数据库', template_mode='bootstrap3')
 admin.add_view(OrderAdmin(order, db.session))
 admin.add_view(MenuAdmin(menu, db.session))
+admin.add_view(CategoryAdmin(category, db.session))
 
 # favicon
 @app.route('/favicon.ico')

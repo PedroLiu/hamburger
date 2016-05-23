@@ -65,6 +65,12 @@ class order(db.Model):
         }
         return result
 
+
+class category(db.Model):
+    __tablename__ = 'category'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+
 class menu(db.Model):
     __tablename__ = 'menu'
     id = db.Column(db.Integer, primary_key=True)
@@ -79,3 +85,24 @@ class menu(db.Model):
     fat = db.Column(db.String(100))
     carbohydrate = db.Column(db.String(100))
     variantsid = db.Column(db.String(100))
+
+    @classmethod
+    def showmenu(self):
+        result = []
+        allcategory = category.query.all()
+        for c in allcategory:
+            dishes = menu.query.filter_by(CategoryId = c.id).all()
+            r = {
+                "id": c.id,
+                "name": c.name,
+                "item": [],
+            }
+            for d in dishes:
+                thisitem = {
+                    'sid': d.sid,
+                    'name': d.name,
+                    'price': int(d.price),
+                    'pic': d.pic,
+                }
+                r['item'].append(thisitem)
+            result.append(r)
