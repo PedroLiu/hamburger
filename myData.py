@@ -1,5 +1,6 @@
 #coding=utf-8
-
+import random
+from database import db, menu, category
 class myData:
     def getMenu(self):
         data = [
@@ -191,3 +192,29 @@ class myData:
             }
         ]
         return data
+
+if (__name__ == '__main__'):
+    d = myData()
+    db.create_all()
+    data = d.getMenu()
+    for item in data:
+        c = category()
+        c.id = item['id']
+        c.name = item['name']
+        db.session.add(c)
+        db.session.commit()
+        for dish in item['item']:
+            d = menu()
+            d.CategoryId = item['id']
+            d.CategoryName = item['name']
+            d.sid = dish['sid']
+            d.name = dish['name']
+            d.price = dish['price']
+            d.pic = dish['pic']
+            d.calory = random.randint(0,100)
+            d.protein = random.randint(0,100)
+            d.fat = random.randint(0,100)
+            d.carbohydrate = random.randint(0,100)
+            d.variantsid = 'None'
+            db.session.add(d)
+            db.session.commit()

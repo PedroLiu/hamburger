@@ -68,7 +68,7 @@ class order(db.Model):
 
 class category(db.Model):
     __tablename__ = 'category'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(100), primary_key=True)
     name = db.Column(db.String(100))
 
 class menu(db.Model):
@@ -91,7 +91,7 @@ class menu(db.Model):
         result = []
         allcategory = category.query.all()
         for c in allcategory:
-            dishes = menu.query.filter_by(CategoryId = c.id).all()
+            dishes = self.query.filter_by(CategoryId = c.id).all()
             r = {
                 "id": c.id,
                 "name": c.name,
@@ -106,3 +106,4 @@ class menu(db.Model):
                 }
                 r['item'].append(thisitem)
             result.append(r)
+        return result
