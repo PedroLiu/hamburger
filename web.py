@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 #coding=utf-8
 from flask import Flask, request, session, render_template, redirect, abort, jsonify
-from flask.ext.sqlalchemy import SQLAlchemy
 from datetime import datetime
 from myData import *
+from database import db, order, menu, category
+import flask_admin as admin
+from flask_admin.contrib import sqla
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///orders.db'
-db = SQLAlchemy(app)
-
+app.config['SECRET_KEY'] = '123456790'
 
 class priceDealer:
     # a json data, figure out how much every part should be charged
@@ -22,61 +22,7 @@ class priceDealer:
         # calculate the price of an order
         return 0
 
-class order(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(1500))
-    status = db.Column(db.String(200))
-    time = db.Column(db.String(200))
 
-
-    def __init__(self, bread = '' , meatpie = '' , vegetable = '' , cheese = '', sauce = '', other = '' , status = '', time=  '', data = None):
-        if data:
-            self.data = str(data)
-            self.status = 'prepaying'
-            self.status = 'payed'
-            self.time = datetime.utcnow()
-        else:
-            print('Order constructor is NONE !!!')
-            abort(500)
-
-    def __repr__(self):
-        return '<Order %r>' % self.id
-
-    def getPrice(self):
-        global priceDealerInstance
-        return priceDealerInstance.calc(self)
-
-    def pay(self):
-        if self.status != 'prepaying':
-            print("Paying error!")
-            abort(500)
-        self.status = 'payed'
-        db.session.commit()
-
-    def cook(self):
-        if self.status != 'payed':
-            print("Cooking error!")
-            abort(500)
-        self.status = 'cooked'
-        db.session.commit()
-
-    def finish(self):
-        if self.status != 'cooked':
-            print("Finishing error!")
-            abort(500)
-        self.status = 'finished'
-        db.session.commit()
-
-
-    def getDetail(self):
-        result = {
-            'id': self.id,
-            #'price': self.getPrice(),
-            'status': self.status,
-            'data': eval(self.data),
-            'time': self.time
-        }
-        return result
 
 class orderView:
 
@@ -154,6 +100,23 @@ class orderListView:
 
 
 
+class OrderAdmin(sqla.ModelView):
+    column_display_pk = True
+    form_columns = ['id', 'data', 'status', 'time']
+
+class MenuAdmin(sqla.ModelView):
+    column_display_pk = True
+    form_columns = ['id', 'CategoryId', 'CategoryName', 'sid', 'name', 'price', 'pic', 'calory', 'protein', 'fat', 'carbohydrate', 'variantsid']
+
+class CategoryAdmin(sqla.ModelView):
+    column_display_pk = True
+    form_columns = ['id', 'name']
+
+admin = admin.Admin(app, name='麦德劳后台数据库', template_mode='bootstrap3')
+admin.add_view(OrderAdmin(order, db.session))
+admin.add_view(MenuAdmin(menu, db.session))
+admin.add_view(CategoryAdmin(category, db.session))
+
 # favicon
 @app.route('/favicon.ico')
 def favicon():
@@ -210,6 +173,5 @@ if __name__ == '__main__':
         db.create_all()
     global priceDealerInstance
     priceDealerInstance = priceDealer({})
-
     #app.run(host = '0.0.0.0', port = 5000, threaded=True)
-    app.run(host = '::', port = 5000, threaded=True)
+    app.run(host = '::', port = 5000, threaded=True, debug = True)
