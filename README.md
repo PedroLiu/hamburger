@@ -8,7 +8,7 @@
 
 前台: [YanCloud:5000/reception](http://capu.davidandjack.cn:5000/reception/)
 
-营养师: [YanCloud:5000/admin/menu](http://capu.davidandjack.cn:5000/admin/menu/)
+营养师: [YanCloud:5000/admin/vari](http://capu.davidandjack.cn:5000/admin/vari/)
 
 ### Usage
 * 生成数据:
