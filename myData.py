@@ -1,4 +1,6 @@
+#!/usr/bin/python3
 #coding=utf-8
+
 import random
 from database import db, menu, category
 class myData:
@@ -156,7 +158,7 @@ class myData:
             },
             {
                 'id':'other',
-                'name':'更多',
+                'name':'其他',
                 'item': [
                     {
                         'sid':'bacon',
@@ -205,16 +207,16 @@ if (__name__ == '__main__'):
         db.session.commit()
         for dish in item['item']:
             d = menu()
-            d.CategoryId = item['id']
-            d.CategoryName = item['name']
+            d.cid= item['id']
+            d.CName = item['name']
             d.sid = dish['sid']
             d.name = dish['name']
-            d.price = dish['price']
+            d.unit = dish['price']
             d.pic = dish['pic']
-            d.calory = random.randint(0,100)
-            d.protein = random.randint(0,100)
+            d.cal = random.randint(0,100)
+            d.pro = random.randint(0,100)
             d.fat = random.randint(0,100)
-            d.carbohydrate = random.randint(0,100)
-            d.variantsid = 'None'
+            d.car = random.randint(0,100)
+            d.vid = 'None'
             db.session.add(d)
             db.session.commit()

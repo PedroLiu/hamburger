@@ -10,9 +10,9 @@
 		</div>
 		<div class="testimonials-grids">
 			<style>
-.gg {
-	background-color: rgb(164, 201, 94);
-}
+				.gg {
+					background-color: rgb(164, 201, 94);
+				}
 			</style>
 			<script src="/static/jquery.js"></script>
 			<script src="/static/js/responsiveslides.min.js"></script>
@@ -61,10 +61,10 @@ $(".next").click(function() {
 		$(".callbacks_here").next().children().click();
 		});
 
-$(".confirm").click(function() {
+$(".confirm").click(function(){
 		// calculate total bill
 		var sum = 0;
-		$(".price").each(function() {
+		$(".price").each(function(){
 			sum += parseInt($(this).text());
 			});
 		if (sum <= 0) {
@@ -75,11 +75,6 @@ $(".confirm").click(function() {
 		// calculate details
 		var order = '\n';
 		var postdata = new Object;
-		postdata['cal'] = 0;
-		postdata['pro'] = 0;
-		postdata['fat'] = 0;
-		postdata['car'] = 0;
-
 		$(".cate-id").each(function(){
 			var id = $(this).html();
 			postdata[id] = new Object;
@@ -92,33 +87,29 @@ $(".confirm").click(function() {
 			var id = $(this).parents(".testimonials-grid").children(".cate-id").html();
 			var name = $(this).html();
 			var sid = $(this).parent().siblings(".text-box").attr("name");
-			var unit = $(this).parent().siblings(".unit").val();
+			order += '\n' + name + ' x ';
+			order += num;
 			var tmp = new Object;
 			tmp['sid'] = sid;
 			tmp['name'] = name;
 			tmp['num'] = parseInt(num);
-			tmp['unit'] = parseInt(unit);
 			postdata[id]['item'].push(tmp);
-			postdata['cal'] += num * $(this).parent().siblings(".cal").val();
-			postdata['pro'] += num * $(this).parent().siblings(".pro").val();
-			postdata['fat'] += num * $(this).parent().siblings(".fat").val();
-			postdata['car'] += num * $(this).parent().siblings(".car").val();
 			}
 			});
 		postdata['price'] = sum;
 		var prefix = '你忘了点 '
-			var suffix = ', 确定继续么？';
+		var suffix = ', 确定继续么？';
 		var mid = '';
 		$(".cate-id").each(function(){
-				var id = $(this).html();
-				if (postdata[id]['item'].length == 0)
-				mid += postdata[id]['name'] + ' ';
-				})
+			var id = $(this).html();
+			    if (postdata[id]['item'].length == 0)
+					mid += postdata[id]['name'] + ' ';
+			})
 		if (mid.length > 0) {
-			<!--alert(JSON.stringify(postdata))-->
-				if (!confirm(prefix + mid + suffix)) {
-					return false;
-				}
+		<!--alert(JSON.stringify(postdata))-->
+			if (!confirm(prefix + mid + suffix)) {
+				return false;
+			}
 		}
 		$.ajax({
 type:'POST',
@@ -158,12 +149,7 @@ alert('!!!\n' + JSON.stringify(e));
 								<input class="text-box" name="{{item.sid}}" type="text" value="0" style="width:25px;" readonly="readonly"/>
 								<input class="add" name="" type="button" value="+" />
 								&nbsp;&nbsp;&nbsp;￥<span class="price">0</span>
-								<input class="unit" type="hidden" value={{item.unit}} />
-								<input class="cal" type="hidden" value={{item.cal}} />
-								<input class="pro" type="hidden" value={{item.pro}} />
-								<input class="fat" type="hidden" value={{item.fat}} />
-								<input class="car" type="hidden" value={{item.car}} />
-								<br><br>
+								<input class="unit" type="hidden" value={{item.price}} /><br><br>
 							</div>
 							{% endfor %}
 						</div>
@@ -178,15 +164,15 @@ alert('!!!\n' + JSON.stringify(e));
 	<!-- //container -->
 </div>
 <div class="banner-button green-button row" align="center" id="buttons">
-	<div class="col-xs-3"></div>
-	<div class="col-xs-2">
-		<a class="prev gg">往前</a></div>
-	<div class="col-xs-2">
-		<!--<a href="#testimonials" class="confirm gg">点好啦~</a>-->
-		<a class="confirm gg">点好啦~</a>
-	</div>
-	<div class="col-xs-2">
-		<a class="next gg">往后</a></div>
+<div class="col-xs-3"></div>
+<div class="col-xs-2">
+	<a class="prev gg">往前</a></div>
+<div class="col-xs-2">
+	<!--<a href="#testimonials" class="confirm gg">点好啦~</a>-->
+	<a class="confirm gg">点好啦~</a>
+</div>
+<div class="col-xs-2">
+	<a class="next gg">往后</a></div>
 </div>
 <div class="col-xs-3"></div>
 <!-- //testimonials -->

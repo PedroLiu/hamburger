@@ -11,7 +11,7 @@ db = SQLAlchemy(app)
 class order(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)
-    data = db.Column(db.String(1500))
+    data = db.Column(db.String(3000))
     status = db.Column(db.String(200))
     time = db.Column(db.String(200))
 
@@ -20,7 +20,6 @@ class order(db.Model):
         if data:
             self.data = str(data)
             self.status = 'prepaying'
-            self.status = 'payed'
             self.time = datetime.utcnow()
         else:
             print('Order constructor is NONE !!!')
@@ -74,24 +73,24 @@ class category(db.Model):
 class menu(db.Model):
     __tablename__ = 'menu'
     id = db.Column(db.Integer, primary_key=True)
-    CategoryId = db.Column(db.String(100))
-    CategoryName = db.Column(db.String(100))
+    cid = db.Column(db.String(100))
+    CName = db.Column(db.String(100))
     sid = db.Column(db.String(100))
     name = db.Column(db.String(100))
-    price = db.Column(db.String(100))
+    unit = db.Column(db.String(100))
     pic = db.Column(db.String(100))
-    calory = db.Column(db.String(100))
-    protein = db.Column(db.String(100))
+    cal = db.Column(db.String(100))
+    pro = db.Column(db.String(100))
     fat = db.Column(db.String(100))
-    carbohydrate = db.Column(db.String(100))
-    variantsid = db.Column(db.String(100))
+    car = db.Column(db.String(100))
+    vid = db.Column(db.String(100))
 
     @classmethod
     def showmenu(self):
         result = []
         allcategory = category.query.all()
         for c in allcategory:
-            dishes = self.query.filter_by(CategoryId = c.id).all()
+            dishes = self.query.filter_by(cid = c.id).all()
             r = {
                 "id": c.id,
                 "name": c.name,
@@ -101,8 +100,12 @@ class menu(db.Model):
                 thisitem = {
                     'sid': d.sid,
                     'name': d.name,
-                    'price': int(d.price),
+                    'unit': int(d.unit),
                     'pic': d.pic,
+                    'cal': d.cal,
+                    'pro': d.pro,
+                    'fat': d.fat,
+                    'car': d.car,
                 }
                 r['item'].append(thisitem)
             result.append(r)

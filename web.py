@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 #coding=utf-8
+
 from flask import Flask, request, session, render_template, redirect, abort, jsonify
 from datetime import datetime
 from myData import *
@@ -37,9 +38,8 @@ class orderView:
         db.session.commit()
         #detail = newOrder.getDetail()
         #session['myOrder'] = newOrder.id
-        #return render_template('paying.html', detail = detail)
-        #return render_template('index.html', data = myData().getMenu())
-        return str(len(order.query.all()))
+        o = order.query[len(order.query.all())-1]
+        return render_template('paying.html', content = eval(o.data), id = o.id, time = o.time, )
 
     def pay(self):
         #pay an order
@@ -90,6 +90,8 @@ class orderListView:
         # change order status
         cur_order = order.query.filter_by(id = id).first()
         if cur_order:
+            if (ori == 'pay'):
+                cur_order.pay()
             if (ori == 'cook'):
                 cur_order.cook()
             if (ori == 'reception'):
@@ -106,16 +108,16 @@ class OrderAdmin(sqla.ModelView):
 
 class MenuAdmin(sqla.ModelView):
     column_display_pk = True
-    form_columns = ['id', 'CategoryId', 'CategoryName', 'sid', 'name', 'price', 'pic', 'calory', 'protein', 'fat', 'carbohydrate', 'variantsid']
+    form_columns = ['id', 'cid', 'CName', 'sid', 'name', 'cal', 'pro', 'fat', 'car', 'vid']
 
 class CategoryAdmin(sqla.ModelView):
     column_display_pk = True
     form_columns = ['id', 'name']
 
-admin = admin.Admin(app, name='麦德劳后台数据库', template_mode='bootstrap3')
-admin.add_view(OrderAdmin(order, db.session))
+admin = admin.Admin(app, name='麦德劳营养师御用页面', template_mode='bootstrap3')
+#admin.add_view(OrderAdmin(order, db.session))
 admin.add_view(MenuAdmin(menu, db.session))
-admin.add_view(CategoryAdmin(category, db.session))
+#admin.add_view(CategoryAdmin(category, db.session))
 
 # favicon
 @app.route('/favicon.ico')
@@ -138,18 +140,20 @@ def new_order():
 @app.route('/api/shift/', methods=['POST'])
 def shift_order():
     id, ori = request.json['id'], request.json['from']
-    if (ori == 'cook' or ori == 'reception'):
+    if (ori == 'pay' or ori == 'cook' or ori == 'reception'):
         print('Order id', id, 'from', ori);
     else:
         print('From error !!!')
         abort(500)
     orderListView().shiftOrder(id = id, ori = ori)
+    if (ori == 'pay'):
+        return '/'
     return '/' + ori + '/'
 
 # index
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html', data = myData().getMenu())
+    return render_template('index.html', data = menu().showmenu())
 
 # cook
 @app.route('/cook/', methods=['GET'])
@@ -164,7 +168,7 @@ def reception_index():
 # for test!!!
 @app.route('/test/', methods=['GET', 'POST'])
 def test():
-    return render_template('test.html')
+    return render_template('test.html', data = menu().showmenu())
 
 if __name__ == '__main__':
     try:
@@ -173,5 +177,4 @@ if __name__ == '__main__':
         db.create_all()
     global priceDealerInstance
     priceDealerInstance = priceDealer({})
-    #app.run(host = '0.0.0.0', port = 5000, threaded=True)
     app.run(host = '::', port = 5000, threaded=True, debug = True)
