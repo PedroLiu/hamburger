@@ -32,11 +32,6 @@ from = 'reception';
 {% endif %}
 
 function shift_order(id) {
-	if (!confirm("确定完成订单" + id + "么？")) {
-		return false;
-	}
-
-
 	var postdata = { 'from' : from, 'id': id  };
 
 	$.ajax({
@@ -46,7 +41,7 @@ data:JSON.stringify(postdata),
 contentType: "application/json",
 dataType:'text',
 success:function(result){
-alert("提交成功！");
+<!--alert("提交成功！");-->
 window.location.href = result;
 },
 error:function(e){
@@ -63,7 +58,6 @@ alert('!!!' + JSON.stringify(e));
 	<div class="header clearfix">
 		<nav>
 			<ul class="nav nav-pills pull-right">
-				<li role="presentation"><a href="/">顾客这边来</a></li>
 				<li role="presentation" 
 				{% if cook %}
 				class="active"
@@ -76,7 +70,7 @@ alert('!!!' + JSON.stringify(e));
 				><a href="/reception">前台mm来这边</a></li>
 			</ul>
 		</nav>
-		<h3 class="text-muted">McDernald's</h3>
+		<h3 class="text-muted">麦德劳秘密后台</h3>
 	</div>
 
 	<div class="col-md-20" role="main">
@@ -167,7 +161,7 @@ alert('!!!' + JSON.stringify(e));
 	<!--</div>-->
 
 	<footer class="footer">
-		<p>&copy; Company 2014</p>
+		<p>Copyleft &copy; 2016. OO</p>
 	</footer>
 
 </div> <!-- /container -->

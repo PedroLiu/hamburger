@@ -1,0 +1,177 @@
+<div id="testimonials" class="testimonials">
+	<!-- container -->
+	<div class="container">
+		<div class="testimonials-info">
+			<h3>确认订单</h3>
+		</div>
+		<div class="testimonials-grids">
+			<style>
+.gg {
+	background-color: rgb(164, 201, 94);
+}
+			</style>
+			<link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+			<link href="/static/dashboard.css" rel="stylesheet">
+			<script src="/static/jquery.js"></script>
+			<script src="/static/js/responsiveslides.min.js"></script>
+			<script src="/static/js/jquery.steps.min.js"></script>
+			<script>
+
+function shift_order(id) {
+
+	var postdata = { 'from' : 'pay', 'id': id  };
+
+	$.ajax({
+type:'POST',
+url:'/api/shift/',
+data:JSON.stringify(postdata),
+contentType: "application/json",
+dataType:'text',
+success:function(result){
+window.location.href = result;
+},
+error:function(e){
+alert('!!!' + JSON.stringify(e));
+}
+});
+}
+			</script>
+			</script>
+			<div class="container">
+				<div class="col-md-12" role="main">
+					<table class="table table-striped table-hover">
+						<tr>
+							<div class="col-xs-4">
+								<span class="item-name">订单号</span>:
+								<span id="myid" class="item-name">{{id}}</span>
+							</div>
+							<div class="col-xs-4">
+								<span class="item-name">价格</span>:
+								<span id="myid" class="item-name">{{content.price}}</span>
+							</div>
+							<div class="col-xs-4">
+								<span class="item-name">下单时间</span>:
+								<span class="item-name">{{time}}</span>
+							</div>
+						</tr>
+						{% if content.bread.item %}
+						<tr>
+							<td>
+								{% for item in content.bread.item %}
+								<div class="col-xs-4">
+									<span class="item-name">{{item.name}}</span> x
+									<span class="item-num">{{item.num}}</span>
+									<span class="">&nbsp;</span>
+									<span class="item-unit">￥{{item.unit}}</span> x
+									<span class="">{{item.num}}</span>
+								</div>
+								{% endfor %}
+							</td>
+						</tr>
+						{% endif %}
+						{% if content.meatpie.item %}
+						<tr>
+							<td>
+								{% for item in content.meatpie.item %}
+								<div class="col-xs-4">
+									<span class="item-name">{{item.name}}</span> x
+									<span class="item-num">{{item.num}}</span>
+									<span class="">&nbsp;</span>
+									<span class="item-unit">￥{{item.unit}}</span> x
+									<span class="">{{item.num}}</span>
+								</div>
+								{% endfor %}
+							</td>
+						</tr>
+						{% endif %}
+						{% if content.vegetable.item %}
+						<tr>
+							<td>
+								{% for item in content.vegetable.item %}
+								<div class="col-xs-4">
+									<span class="item-name">{{item.name}}</span> x
+									<span class="item-num">{{item.num}}</span>
+									<span class="">&nbsp;</span>
+									<span class="item-unit">￥{{item.unit}}</span> x
+									<span class="">{{item.num}}</span>
+								</div>
+								{% endfor %}
+							</td>
+						</tr>
+						{% endif %}
+						{% if content.cheese.item %}
+						<tr>
+							<td>
+								{% for item in content.cheese.item %}
+								<div class="col-xs-4">
+									<span class="item-name">{{item.name}}</span> x
+									<span class="item-num">{{item.num}}</span>
+									<span class="">&nbsp;</span>
+									<span class="item-unit">￥{{item.unit}}</span> x
+									<span class="">{{item.num}}</span>
+								</div>
+								{% endfor %}
+							</td>
+						</tr>
+						{% endif %}
+						{% if content.sauce.item %}
+						<tr>
+							<td>
+								{% for item in content.sauce.item %}
+								<div class="col-xs-4">
+									<span class="item-name">{{item.name}}</span> x
+									<span class="item-num">{{item.num}}</span>
+									<span class="">&nbsp;</span>
+									<span class="item-unit">￥{{item.unit}}</span> x
+									<span class="">{{item.num}}</span>
+								</div>
+								{% endfor %}
+							</td>
+						</tr>
+						{% endif %}
+						{% if content.other.item %}
+						<tr>
+							<td>
+								{% for item in content.other.item %}
+								<div class="col-xs-4">
+									<span class="item-name">{{item.name}}</span> x
+									<span class="item-num">{{item.num}}</span>
+									<span class="">&nbsp;</span>
+									<span class="item-unit">￥{{item.unit}}</span> x
+									<span class="">{{item.num}}</span>
+								</div>
+								{% endfor %}
+							</td>
+						</tr>
+						{% endif %}
+						<tr>
+							<td>
+								<div class="col-xs-3">
+									<span class="item-num">卡路里: </span>
+									<span class="item-name">{{content.cal}}</span>
+								</div>
+								<div class="col-xs-3">
+									<span class="item-num">蛋白质: </span>
+									<span class="item-name">{{content.pro}}</span>
+								</div>
+								<div class="col-xs-3">
+									<span class="item-num">脂肪: </span>
+									<span class="item-name">{{content.fat}}</span>
+								</div>
+								<div class="col-xs-3">
+									<span class="item-num">碳水化合物: </span>
+									<span class="item-name">{{content.car}}</span>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="button" value="OK, 去支付~" onclick="shift_order({{id}});">&nbsp;
+								<input type="button" value="我还得考虑考虑……"onclick="window.location.href = '/';">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
