@@ -8,6 +8,16 @@
 		<div class="testimonials-info">
 			<h3>个性化菜单</h3>
 		</div>
+		<div><br><br></div>
+		<div class="banner-button green-button row" align="center" id="buttons">
+			<div class="col-md-4" style="text-align:right">
+				<a class="prev gg">往前</a></div>
+			<div class="col-md-4">
+				<a class="confirm gg">点好啦~</a>
+			</div>
+			<div class="col-md-4" style="text-align:left">
+				<a class="next gg">往后</a></div>
+		</div>
 		<div class="testimonials-grids">
 			<style>
 .gg {
@@ -17,128 +27,9 @@
 			<script src="/static/jquery.js"></script>
 			<script src="/static/js/responsiveslides.min.js"></script>
 			<script src="/static/js/jquery.steps.min.js"></script>
-			<script>
-
-// You can also use "$(window).load(function() {"
-			$(function () {
-					// Slideshow 4
-					$("#slider3").responsiveSlides({
-auto: true,
-pager: true,
-nav: false,
-namespace: "callbacks",
-before: function () {
-$('.events').append("<li>before event fired.</li>");
-},
-after: function () {
-$('.events').append("<li>after event fired.</li>");
-}
-});
-
-					$(".add").click(function() {
-						n = parseInt($(this).prev().val());
-						if(isNaN(n) || n<0) n=1;
-						else n=n+1;
-						$(this).prev().val(n);
-						unit = $(this).siblings(".unit").val();
-						$(this).siblings(".price").text(n*unit);
-						});
-
-$(".min").click(function() {
-		n = parseInt($(this).next().val());
-		if(isNaN(n) || n<1) n=0;
-		else n=n-1;
-		$(this).next().val(n);
-		unit = $(this).siblings(".unit").val();
-		$(this).siblings(".price").text(n*unit);
-		});
-
-$(".prev").click(function() {
-		$(".callbacks_here").prev().children().click();
-		});
-
-$(".next").click(function() {
-		$(".callbacks_here").next().children().click();
-		});
-
-$(".confirm").click(function() {
-		// calculate total bill
-		var sum = 0;
-		$(".price").each(function() {
-			sum += parseInt($(this).text());
-			});
-		if (sum <= 0) {
-		alert("不许胡闹哟～");
-		return false;
-		}
-
-		// calculate details
-		var order = '\n';
-		var postdata = new Object;
-		postdata['cal'] = 0;
-		postdata['pro'] = 0;
-		postdata['fat'] = 0;
-		postdata['car'] = 0;
-
-		$(".cate-id").each(function(){
-			var id = $(this).html();
-			postdata[id] = new Object;
-			postdata[id]['name'] = $(this).siblings(".cate-name").html();
-			postdata[id]['item'] = new Array;
-			})
-		$(".item-name").each(function(){
-			var num = $(this).parent().siblings(".text-box").val();
-			if (num > 0) {
-			var id = $(this).parents(".testimonials-grid").children(".cate-id").html();
-			var name = $(this).html();
-			var sid = $(this).parent().siblings(".text-box").attr("name");
-			var unit = $(this).parent().siblings(".unit").val();
-			var tmp = new Object;
-			tmp['sid'] = sid;
-			tmp['name'] = name;
-			tmp['num'] = parseInt(num);
-			tmp['unit'] = parseInt(unit);
-			postdata[id]['item'].push(tmp);
-			postdata['cal'] += num * $(this).parent().siblings(".cal").val();
-			postdata['pro'] += num * $(this).parent().siblings(".pro").val();
-			postdata['fat'] += num * $(this).parent().siblings(".fat").val();
-			postdata['car'] += num * $(this).parent().siblings(".car").val();
-			}
-			});
-		postdata['price'] = sum;
-		var prefix = '你忘了点 '
-			var suffix = ', 确定继续么？';
-		var mid = '';
-		$(".cate-id").each(function(){
-				var id = $(this).html();
-				if (postdata[id]['item'].length == 0)
-				mid += postdata[id]['name'] + ' ';
-				})
-		if (mid.length > 0) {
-			<!--alert(JSON.stringify(postdata))-->
-				if (!confirm(prefix + mid + suffix)) {
-					return false;
-				}
-		}
-		$.ajax({
-type:'POST',
-url:'/api/neworder/',
-data:JSON.stringify(postdata),
-contentType: "application/json",
-success:function(result){
-$(buttons).remove();
-$(testimonials).html(result);
-},
-error:function(e){
-alert('!!!\n' + JSON.stringify(e));
-}
-});
-
-});
-
-});
-
-			</script>
+			<script src="static/js/index.js"></script>
+			<script src="/static/metro/metro.js"></script>
+			<link href="/static/metro/metro.css" rel="stylesheet">
 
 			<div id="top" class="callbacks_container">
 				<ul class="rslides" id="slider3">
@@ -152,17 +43,69 @@ alert('!!!\n' + JSON.stringify(e));
 						<div class="row">
 							{% for item in cate.item %}
 							<div class="col-sm-4">
-								<img src="/static/images/{{item.pic}}" alt="" />
-								<p><span class="item-name">{{item.name}}</span></p>
+								<!--<img src="/static/images/{{item.pic}}" alt="" />-->
+
+								<div class="image-container">
+									<div class="frame">
+										<img src="/static/images/{{item.pic}}">
+									</div>
+									<div class="image-overlay op-green">
+										<table>
+											<thead>
+												<tr>
+													营养
+												</tr>
+												<tr><td><br></td></tr>
+											</thead>
+											<tbody>
+											{% for v in item.vari[:1] %}
+											<tr>
+												<td>卡路里</td>
+												<td>:&nbsp;</td>
+												<td class="cal">{{v.cal}}</td>
+											</tr>
+											<tr>
+												<td>蛋白质</td>
+												<td>:&nbsp;</td>
+												<td class="pro">{{v.pro}}</td>
+											</tr>
+											<tr>
+												<td>脂肪</td>
+												<td>:&nbsp;</td>
+												<td class="fat">{{v.fat}}</td>
+											</tr>
+											<tr>
+												<td>CHO</td>
+												<td>:&nbsp;</td>
+												<td class="car">{{v.car}}</td>
+											</tr>
+											{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+								<p>
+								<span class="item-name">
+									{{item.name}}
+								</span>
+								<select class="variopt">
+									{% for v in item.vari %}
+									<option value={{v.id}} >{{v.name}}</option>
+									{% endfor %}
+								</select>
+								</p>
 								<input class="min" name="" type="button" value="-" />
 								<input class="text-box" name="{{item.sid}}" type="text" value="0" style="width:25px;" readonly="readonly"/>
 								<input class="add" name="" type="button" value="+" />
 								&nbsp;&nbsp;&nbsp;￥<span class="price">0</span>
 								<input class="unit" type="hidden" value={{item.unit}} />
-								<input class="cal" type="hidden" value={{item.cal}} />
-								<input class="pro" type="hidden" value={{item.pro}} />
-								<input class="fat" type="hidden" value={{item.fat}} />
-								<input class="car" type="hidden" value={{item.car}} />
+								{% for v in item.vari[:1] %}
+								<input class="cal" type="hidden" value={{v.cal}} />
+								<input class="pro" type="hidden" value={{v.pro}} />
+								<input class="fat" type="hidden" value={{v.fat}} />
+								<input class="car" type="hidden" value={{v.car}} />
+								{% endfor %}
 								<br><br>
 							</div>
 							{% endfor %}
@@ -177,17 +120,5 @@ alert('!!!\n' + JSON.stringify(e));
 	</div>
 	<!-- //container -->
 </div>
-<div class="banner-button green-button row" align="center" id="buttons">
-	<div class="col-xs-3"></div>
-	<div class="col-xs-2">
-		<a class="prev gg">往前</a></div>
-	<div class="col-xs-2">
-		<!--<a href="#testimonials" class="confirm gg">点好啦~</a>-->
-		<a class="confirm gg">点好啦~</a>
-	</div>
-	<div class="col-xs-2">
-		<a class="next gg">往后</a></div>
-</div>
-<div class="col-xs-3"></div>
 <!-- //testimonials -->
 {% endblock %}

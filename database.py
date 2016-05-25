@@ -67,32 +67,55 @@ class order(db.Model):
 
 class category(db.Model):
     __tablename__ = 'category'
-    id = db.Column(db.String(100), primary_key=True)
-    name = db.Column(db.String(100))
+    id = db.Column(db.Integer, primary_key=True)
+    cid = db.Column(db.String(30))
+    name = db.Column(db.String(30))
+
+class vari(db.Model):
+    __tablename__ = 'vari'
+    id = db.Column(db.Integer, primary_key=True)
+    sid = db.Column(db.String(30))
+    sname = db.Column(db.String(30))
+    name = db.Column(db.String(30))
+    cal = db.Column(db.Integer)
+    pro = db.Column(db.Integer)
+    fat = db.Column(db.Integer)
+    car = db.Column(db.Integer)
+
+    @classmethod
+    def getall(self):
+        ret = []
+        varis = self.query.all()
+        for v in varis:
+            thisvari = {
+                'id': v.id,
+                'name': v.name,
+                'cal': int(v.cal),
+                'pro': int(v.pro),
+                'fat': int(v.fat),
+                'car': int(v.car),
+            }
+            ret.append(thisvari)
+        return ret
 
 class menu(db.Model):
     __tablename__ = 'menu'
     id = db.Column(db.Integer, primary_key=True)
-    cid = db.Column(db.String(100))
-    CName = db.Column(db.String(100))
-    sid = db.Column(db.String(100))
-    name = db.Column(db.String(100))
-    unit = db.Column(db.String(100))
+    cid = db.Column(db.Integer)
+    CName = db.Column(db.String(30))
+    sid = db.Column(db.Integer)
+    name = db.Column(db.String(30))
+    unit = db.Column(db.Integer)
     pic = db.Column(db.String(100))
-    cal = db.Column(db.String(100))
-    pro = db.Column(db.String(100))
-    fat = db.Column(db.String(100))
-    car = db.Column(db.String(100))
-    vid = db.Column(db.String(100))
 
     @classmethod
     def showmenu(self):
         result = []
         allcategory = category.query.all()
         for c in allcategory:
-            dishes = self.query.filter_by(cid = c.id).all()
+            dishes = self.query.filter_by(cid = c.cid).all()
             r = {
-                "id": c.id,
+                "id": c.cid,
                 "name": c.name,
                 "item": [],
             }
@@ -102,11 +125,19 @@ class menu(db.Model):
                     'name': d.name,
                     'unit': int(d.unit),
                     'pic': d.pic,
-                    'cal': d.cal,
-                    'pro': d.pro,
-                    'fat': d.fat,
-                    'car': d.car,
+                    'vari': [],
                 }
+                varis = vari.query.filter_by(sid = d.sid).all()
+                for v in varis:
+                    thisvari = {
+                        'id': v.id,
+                        'name': v.name,
+                        'cal': int(v.cal),
+                        'pro': int(v.pro),
+                        'fat': int(v.fat),
+                        'car': int(v.car),
+                    }
+                    thisitem['vari'].append(thisvari)
                 r['item'].append(thisitem)
             result.append(r)
         return result

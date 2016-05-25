@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 #coding=utf-8
 
-import random
-from database import db, menu, category
+import random, os
+from database import db, menu, category, vari
 class myData:
     def getMenu(self):
         data = [
@@ -196,12 +196,12 @@ class myData:
         return data
 
 if (__name__ == '__main__'):
-    d = myData()
+    os.rename('database.db','database.db' + str('.bak'))
     db.create_all()
-    data = d.getMenu()
+    data = myData().getMenu()
     for item in data:
         c = category()
-        c.id = item['id']
+        c.cid = item['id']
         c.name = item['name']
         db.session.add(c)
         db.session.commit()
@@ -213,10 +213,23 @@ if (__name__ == '__main__'):
             d.name = dish['name']
             d.unit = dish['price']
             d.pic = dish['pic']
-            d.cal = random.randint(0,100)
-            d.pro = random.randint(0,100)
-            d.fat = random.randint(0,100)
-            d.car = random.randint(0,100)
-            d.vid = 'None'
+            nvari = random.randint(1,3)
+            for i in range(0, nvari):
+                v = vari()
+                v.sid = d.sid
+                v.sname = d.name
+                if i == 0:
+                    v.name = '普通'
+                elif i == 1:
+                    v.name = '高钙'
+                elif i == 2:
+                    v.name = '定制'
+                v.cal = random.randint(0,100)
+                v.pro = random.randint(0,100)
+                v.fat = random.randint(0,100)
+                v.car = random.randint(0,100)
+                db.session.add(v)
+                db.session.commit()
+
             db.session.add(d)
             db.session.commit()

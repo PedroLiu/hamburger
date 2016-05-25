@@ -108,7 +108,11 @@ class OrderAdmin(sqla.ModelView):
 
 class MenuAdmin(sqla.ModelView):
     column_display_pk = True
-    form_columns = ['id', 'cid', 'CName', 'sid', 'name', 'cal', 'pro', 'fat', 'car', 'vid']
+    form_columns = ['id', 'cid', 'CName', 'sid', 'name']
+
+class VariantAdmin(sqla.ModelView):
+    column_display_pk = True
+    form_columns = ['id', 'sid', 'sname', 'name', 'cal', 'pro', 'fat', 'car']
 
 class CategoryAdmin(sqla.ModelView):
     column_display_pk = True
@@ -116,8 +120,9 @@ class CategoryAdmin(sqla.ModelView):
 
 admin = admin.Admin(app, name='麦德劳营养师御用页面', template_mode='bootstrap3')
 #admin.add_view(OrderAdmin(order, db.session))
-admin.add_view(MenuAdmin(menu, db.session))
+#admin.add_view(MenuAdmin(menu, db.session))
 #admin.add_view(CategoryAdmin(category, db.session))
+admin.add_view(VariantAdmin(vari, db.session))
 
 # favicon
 @app.route('/favicon.ico')
@@ -125,10 +130,14 @@ def favicon():
     return redirect('/static/favicon.ico')
 
 # get menu data
-@app.route('/api/getorder/', methods=['GET'])
+@app.route('/api/getmenu/', methods=['GET'])
 def get_menu():
-    data = myData().getMenu()
-    return jsonify(data)
+    return jsonify({ 'data': menu().showmenu() })
+
+# get variant data
+@app.route('/api/getvari/', methods=['GET'])
+def get_vari():
+    return jsonify({ 'data': vari().getall() })
 
 # post a new order
 @app.route('/api/neworder/', methods=['POST'])

@@ -7484,6 +7484,7 @@ input[type="submit"].link:active {
   width: 100%;
   height: 100%;
   margin:0;
+  z-index:0;
 }
 .image-container img {
   display: block;
