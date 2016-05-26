@@ -98,14 +98,17 @@ $(function () {
 			var num = $(this).parent().siblings(".text-box").val();
 			if (num > 0) {
 				var id = $(this).parents(".testimonials-grid").children(".cate-id").html();
-				var name = $(this).html();
+				var name = $(this).html().replace(/\s/g, "");
 				var sid = $(this).parent().siblings(".text-box").attr("name");
 				var unit = $(this).parent().siblings(".unit").val();
+				var opt = $(this).siblings(".variopt").children("option:selected");
 				var tmp = new Object;
 				tmp['sid'] = sid;
 				tmp['name'] = name;
 				tmp['num'] = parseInt(num);
 				tmp['unit'] = parseInt(unit);
+				tmp['vid'] = parseInt(opt.val());
+				tmp['vname'] = opt.text();
 				postdata[id]['item'].push(tmp);
 				postdata['cal'] += num * $(this).parent().siblings(".cal").val();
 				postdata['pro'] += num * $(this).parent().siblings(".pro").val();

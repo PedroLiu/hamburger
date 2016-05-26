@@ -94,37 +94,43 @@ alert('!!!' + JSON.stringify(e));
 				<td>
 					{% for ite in order.data.bread.item %}
 					<div class="col-sm-4">
-						<span>{{ite.name}}</span> x 
+						<span>{{ite.name}}</span>(
+						<span>{{ite.vname}}</span> ) x
 						<span>{{ite.num}}</span>
 					</div>
 					{% endfor %}
 					{% for ite in order.data.meatpie.item %}
 					<div class="col-sm-4">
-						<span>{{ite.name}}</span> x 
+						<span>{{ite.name}}</span>(
+						<span>{{ite.vname}}</span> ) x
 						<span>{{ite.num}}</span>
 					</div>
 					{% endfor %}
 					{% for ite in order.data.vegetable.item %}
 					<div class="col-sm-4">
-						<span>{{ite.name}}</span> x 
+						<span>{{ite.name}}</span>(
+						<span>{{ite.vname}}</span> ) x
 						<span>{{ite.num}}</span>
 					</div>
 					{% endfor %}
 					{% for ite in order.data.sauce.item %}
 					<div class="col-sm-4">
-						<span>{{ite.name}}</span> x 
+						<span>{{ite.name}}</span>(
+						<span>{{ite.vname}}</span> ) x
 						<span>{{ite.num}}</span>
 					</div>
 					{% endfor %}
 					{% for ite in order.data.cheese.item %}
 					<div class="col-sm-4">
-						<span>{{ite.name}}</span> x 
+						<span>{{ite.name}}</span>(
+						<span>{{ite.vname}}</span> ) x
 						<span>{{ite.num}}</span>
 					</div>
 					{% endfor %}
 					{% for ite in order.data.other.item %}
 					<div class="col-sm-4">
-						<span>{{ite.name}}</span> x 
+						<span>{{ite.name}}</span>(
+						<span>{{ite.vname}}</span> ) x
 						<span>{{ite.num}}</span>
 					</div>
 					{% endfor %}

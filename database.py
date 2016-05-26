@@ -101,9 +101,9 @@ class vari(db.Model):
 class menu(db.Model):
     __tablename__ = 'menu'
     id = db.Column(db.Integer, primary_key=True)
-    cid = db.Column(db.Integer)
+    cid = db.Column(db.String(30))
     CName = db.Column(db.String(30))
-    sid = db.Column(db.Integer)
+    sid = db.Column(db.String(30))
     name = db.Column(db.String(30))
     unit = db.Column(db.Integer)
     pic = db.Column(db.String(100))

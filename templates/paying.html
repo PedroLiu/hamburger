@@ -40,11 +40,10 @@ alert('!!!' + JSON.stringify(e));
 						<td>
 							<div class="col-xs-4">
 								<span class="item-name">订单号</span>:
-								<span id="myid" class="item-name">{{id}}</span>
+								<span class="item-name">{{id}}</span>
 							</div>
 							<div class="col-xs-4">
-								<span class="item-name">价格</span>:
-								<span id="myid" class="item-name">{{content.price}}</span>
+								<span>&nbsp;</span>
 							</div>
 							<div class="col-xs-4">
 								<span class="item-name">下单时间</span>:
@@ -57,7 +56,8 @@ alert('!!!' + JSON.stringify(e));
 						<td>
 							{% for item in content.bread.item %}
 							<div class="col-xs-4">
-								<span class="item-name">{{item.name}}</span> x
+								<span class="item-name">{{item.name}}</span>(
+								<span class="item-vname">{{item.vname}}</span> ) x
 								<span class="item-num">{{item.num}}</span>
 								<span class="">&nbsp;</span>
 								<span class="item-unit">￥{{item.unit}}</span> x
@@ -72,7 +72,8 @@ alert('!!!' + JSON.stringify(e));
 						<td>
 							{% for item in content.meatpie.item %}
 							<div class="col-xs-4">
-								<span class="item-name">{{item.name}}</span> x
+								<span class="item-name">{{item.name}}</span>(
+								<span class="item-vname">{{item.vname}}</span> ) x
 								<span class="item-num">{{item.num}}</span>
 								<span class="">&nbsp;</span>
 								<span class="item-unit">￥{{item.unit}}</span> x
@@ -87,7 +88,8 @@ alert('!!!' + JSON.stringify(e));
 						<td>
 							{% for item in content.vegetable.item %}
 							<div class="col-xs-4">
-								<span class="item-name">{{item.name}}</span> x
+								<span class="item-name">{{item.name}}</span>(
+								<span class="item-vname">{{item.vname}}</span> ) x
 								<span class="item-num">{{item.num}}</span>
 								<span class="">&nbsp;</span>
 								<span class="item-unit">￥{{item.unit}}</span> x
@@ -102,7 +104,8 @@ alert('!!!' + JSON.stringify(e));
 						<td>
 							{% for item in content.cheese.item %}
 							<div class="col-xs-4">
-								<span class="item-name">{{item.name}}</span> x
+								<span class="item-name">{{item.name}}</span>(
+								<span class="item-vname">{{item.vname}}</span> ) x
 								<span class="item-num">{{item.num}}</span>
 								<span class="">&nbsp;</span>
 								<span class="item-unit">￥{{item.unit}}</span> x
@@ -117,7 +120,8 @@ alert('!!!' + JSON.stringify(e));
 						<td>
 							{% for item in content.sauce.item %}
 							<div class="col-xs-4">
-								<span class="item-name">{{item.name}}</span> x
+								<span class="item-name">{{item.name}}</span>(
+								<span class="item-vname">{{item.vname}}</span> ) x
 								<span class="item-num">{{item.num}}</span>
 								<span class="">&nbsp;</span>
 								<span class="item-unit">￥{{item.unit}}</span> x
@@ -132,7 +136,8 @@ alert('!!!' + JSON.stringify(e));
 						<td>
 							{% for item in content.other.item %}
 							<div class="col-xs-4">
-								<span class="item-name">{{item.name}}</span> x
+								<span class="item-name">{{item.name}}</span>(
+								<span class="item-vname">{{item.vname}}</span> ) x
 								<span class="item-num">{{item.num}}</span>
 								<span class="">&nbsp;</span>
 								<span class="item-unit">￥{{item.unit}}</span> x
@@ -159,6 +164,14 @@ alert('!!!' + JSON.stringify(e));
 							<div class="col-xs-3">
 								<span class="item-num">碳水化合物: </span>
 								<span class="item-name">{{content.car}}</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="col-xs-12">
+								<span class="item-name">总价</span>:
+								<span class="item-name">{{content.price}}</span>
 							</div>
 						</td>
 					</tr>
