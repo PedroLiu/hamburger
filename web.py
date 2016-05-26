@@ -104,25 +104,34 @@ class orderListView:
 
 class OrderAdmin(sqla.ModelView):
     column_display_pk = True
-    form_columns = ['id', 'data', 'status', 'time']
 
 class MenuAdmin(sqla.ModelView):
     column_display_pk = True
-    form_columns = ['id', 'cid', 'CName', 'sid', 'name']
-
-class VariantAdmin(sqla.ModelView):
-    column_display_pk = True
-    form_columns = ['id', 'sid', 'sname', 'name', 'cal', 'pro', 'fat', 'car']
 
 class CategoryAdmin(sqla.ModelView):
     column_display_pk = True
-    form_columns = ['id', 'name']
+
+class VariantAdmin(sqla.ModelView):
+    column_display_pk = True
+    column_list = ['id', 'sname', 'name', 'cal', 'pro', 'fat', 'car']
+    column_searchable_list = ['sname', 'name']
+    column_filters = ['id', 'sname', 'name', 'cal', 'pro', 'fat', 'car']
+    column_labels = dict(
+        id = '编号',
+        sid = '食材代号',
+        sname = '食材名称',
+        name = '变种',
+        cal = '卡路里',
+        pro = '蛋白质',
+        fat = '脂肪',
+        car = '碳水化合物',
+    )
 
 admin = admin.Admin(app, name='麦德劳营养师御用页面', template_mode='bootstrap3')
 #admin.add_view(OrderAdmin(order, db.session))
 #admin.add_view(MenuAdmin(menu, db.session))
 #admin.add_view(CategoryAdmin(category, db.session))
-admin.add_view(VariantAdmin(vari, db.session))
+admin.add_view(VariantAdmin(vari, db.session, '营养师看过来'))
 
 # favicon
 @app.route('/favicon.ico')
